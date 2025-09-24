@@ -95,6 +95,12 @@
       from { transform: translateY(-50px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
     }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.1); opacity: 0.8; }
+      100% { transform: scale(1); opacity: 1; }
+    }
 
     body {
       font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', roboto, sans-serif;
@@ -753,6 +759,135 @@
         border: none;
         padding: 0;
     }
+    
+    .audio-player-container {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      background: var(--bg-secondary);
+      border-radius: var(--border-radius);
+      padding: 0.75rem;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+    }
+
+    .audio-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      
+    }
+    
+    .audio-player-container.is-playing .play-btn {
+        display: none;
+    }
+    
+    .audio-player-container.is-playing .pause-btn {
+        display: inline-block;
+    }
+
+    .play-btn, .pause-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--primary);
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2rem;
+      height: 2rem;
+    }
+    
+    .play-btn:hover, .pause-btn:hover {
+        opacity: 0.8;
+    }
+    
+    .pause-btn {
+        display: none;
+    }
+    
+    .play-icon, .pause-icon {
+        width: 1.25rem;
+        height: 1.25rem;
+        fill: var(--primary);
+    }
+    
+    .progress-bar-container {
+      flex-grow: 1;
+      height: 6px;
+      background: var(--bg-tertiary);
+      border-radius: 3px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: var(--gradient-primary);
+      transition: width 0.1s linear;
+    }
+
+    .audio-time {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .close-audio-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 0.75rem;
+      position: absolute;
+      top: 0.25rem;
+      right: 0.25rem;
+      width: 1.2rem;
+      height: 1.2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      transition: var(--transition-fast);
+      padding: 0;
+    }
+    
+    .close-audio-btn:hover {
+        color: var(--error);
+        background-color: var(--bg-tertiary);
+    }
+    
+    .preview-btn {
+        background: var(--gradient-primary);
+        color: white;
+        border: none;
+        padding: 0.6rem 1rem;
+        font-size: 0.8rem;
+        font-weight: 500;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: var(--transition);
+        font-family: inherit;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        box-shadow: var(--shadow-sm);
+    }
+    
+    .preview-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-md);
+        background: var(--gradient-electric);
+    }
+    
+    .preview-btn .play-icon {
+        fill: white;
+        width: 1rem;
+        height: 1rem;
+    }
 
   </style>
 </head>
@@ -815,7 +950,7 @@ Dressed Up</a></td>
 Bottom] [Size Difference] [Hatefuck] [Pussy Eating] [Hair Pulling]
 [Cowgirl]/[Riding] [Mutual Orgasm] [Creampie] [Cleanup] [11:55]</td>
 <td style="text-align: right;"><a
-href="https://www.patreon.com/posts/m4f-all-dressed-139589175">Preview</a></td>
+href="https://archive.org/download/nosybrat/alldressedup.mp3">Preview</a></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><a
@@ -4741,7 +4876,7 @@ href="https://www.reddit.com/user/whorosethinks/">Reddit</a></p></li>
 href="https://www.youtube.com/channel/UCgHJ8QhLNgYe_ehYZZbnJIw">YouTube</a></p></li>
 <li><p><a
 href="https://www.patreon.com/whorosethinks">Patreon</a></p></li>
-<li><p><a href="https://forms.gle/a5JqCSQGTJh79GvL7">Vanity (Mini)
+<li><p><a href="https://forms.gle/s5tQfuQ4gng2TyaJ7">Vanity (Mini)
 Commissions</a></p></li>
 </ul>
 <p>       A brief explanation of the “kitchen:”</p>
@@ -5265,8 +5400,7 @@ pile on. Let’s put this one to rest.</li>
 </ul>
 <p><strong>Do you do commissions/customs?</strong></p>
 <ul>
-<li>Sometimes. <a
-href="https://docs.google.com/forms/d/1h803It-zqDZCrCh4KlyAcBAd-zvQIz-jXX8oSzTLF8o/">The
+<li>Sometimes. <a href="https://forms.gle/s5tQfuQ4gng2TyaJ7">The
 kitchen</a> is opened regularly, but full commissions are pretty
 rare.</li>
 </ul>
@@ -5387,17 +5521,142 @@ myself won’t be part of it.</li>
     function getSystemTheme() {
       return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     }
+    
+    let currentAudio = null;
 
+    function createAudioPlayer(audioSrc, parentCell) {
+        const player = document.createElement('div');
+        player.className = 'audio-player-container';
+        player.innerHTML = `
+          <audio src="${audioSrc}" preload="none"></audio>
+          <div class="audio-controls">
+            <button class="play-btn" aria-label="Play">
+              <svg class="play-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+            </button>
+            <button class="pause-btn" aria-label="Pause">
+              <svg class="pause-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+              </svg>
+            </button>
+            <div class="progress-bar-container">
+              <div class="progress-bar"></div>
+            </div>
+          </div>
+          <button class="close-audio-btn" aria-label="Close Player">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        `;
+        
+        const audio = player.querySelector('audio');
+        const playBtn = player.querySelector('.play-btn');
+        const pauseBtn = player.querySelector('.pause-btn');
+        const progressBar = player.querySelector('.progress-bar');
+        const progressContainer = player.querySelector('.progress-bar-container');
+        const closeBtn = player.querySelector('.close-audio-btn');
+
+        if (currentAudio && currentAudio !== audio) {
+            currentAudio.pause();
+            const oldPlayer = currentAudio.closest('.audio-player-container');
+            const oldCell = oldPlayer.parentElement;
+            const oldLink = oldCell.querySelector('a');
+            oldPlayer.remove();
+            oldLink.style.display = 'inline-block';
+        }
+
+        currentAudio = audio;
+
+        playBtn.addEventListener('click', () => {
+            if (currentAudio && currentAudio !== audio) {
+                currentAudio.pause();
+                const oldPlayer = currentAudio.closest('.audio-player-container');
+                const oldCell = oldPlayer.parentElement;
+                const oldLink = oldCell.querySelector('a');
+                oldPlayer.remove();
+                oldLink.style.display = 'inline-block';
+            }
+            audio.play();
+            player.classList.add('is-playing');
+            currentAudio = audio;
+        });
+
+        pauseBtn.addEventListener('click', () => {
+            audio.pause();
+            player.classList.remove('is-playing');
+        });
+
+        audio.addEventListener('timeupdate', () => {
+            const progress = (audio.currentTime / audio.duration) * 100;
+            progressBar.style.width = `${progress}%`;
+        });
+        
+        audio.addEventListener('ended', () => {
+            player.classList.remove('is-playing');
+            audio.currentTime = 0;
+            progressBar.style.width = '0%';
+        });
+        
+        progressContainer.addEventListener('click', (e) => {
+            const width = progressContainer.offsetWidth;
+            const clickX = e.offsetX;
+            const duration = audio.duration;
+            audio.currentTime = (clickX / width) * duration;
+        });
+        
+        closeBtn.addEventListener('click', () => {
+            audio.pause();
+            player.remove();
+            const previewBtn = document.createElement('button');
+            previewBtn.className = 'preview-btn';
+            previewBtn.innerHTML = `
+                <svg class="play-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 5v14l11-7z"/>
+                </svg>
+                Preview
+            `;
+            previewBtn.dataset.audioSrc = audioSrc;
+            parentCell.appendChild(previewBtn);
+            if(currentAudio === audio) {
+                currentAudio = null;
+            }
+        });
+
+        parentCell.innerHTML = '';
+        parentCell.appendChild(player);
+    }
+    
     function makeTablesResponsive() {
       document.querySelectorAll('table').forEach(table => {
         const headers = Array.from(table.querySelectorAll('thead th')).map(th => th.textContent);
         table.querySelectorAll('tbody tr').forEach(row => {
           row.querySelectorAll('td').forEach((cell, i) => {
+            if (headers[i]) {
+              cell.setAttribute('data-label', headers[i]);
+            }
           });
+          const thirdCell = row.querySelectorAll('td')[2];
+          if (thirdCell && thirdCell.children.length > 0) {
+            const link = thirdCell.querySelector('a');
+            if (link && link.href.endsWith('.mp3')) {
+              const audioSrc = link.href;
+              link.style.display = 'none';
+              const previewBtn = document.createElement('button');
+              previewBtn.className = 'preview-btn';
+              previewBtn.innerHTML = `
+                  <svg class="play-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M8 5v14l11-7z"/>
+                  </svg>
+                  Preview
+              `;
+              previewBtn.dataset.audioSrc = audioSrc;
+              thirdCell.appendChild(previewBtn);
+            }
+          }
         });
       });
     }
-    
+
     function showFaqOverlay() {
       const overlay = document.getElementById('faq-overlay');
       overlay.style.display = 'flex';
@@ -5425,6 +5684,7 @@ myself won’t be part of it.</li>
         currentTheme = getSystemTheme();
         localStorage.setItem('siteTheme', currentTheme);
       }
+    
       const applyTheme = (theme) => {
         if (theme === 'dark') {
           document.body.classList.add('dark-mode');
@@ -5478,7 +5738,8 @@ myself won’t be part of it.</li>
             highlightTerm(section, query);
           }
         });
-        makeTablesResponsive();
+      
+      makeTablesResponsive();
       }, 200);
       document.querySelectorAll('#searchInput').forEach(input => {
         input.addEventListener('input', function () {
@@ -5488,6 +5749,7 @@ myself won’t be part of it.</li>
         input.addEventListener('keydown', function(e) {
             if (e.key === 'Enter' && window.innerWidth <= 768) {
                 sidebar.classList.remove('show');
+          
             }
         });
       });
@@ -5500,6 +5762,7 @@ myself won’t be part of it.</li>
           const visibleSearch = document.querySelector('.search-container:not([style*="display: none"]) #searchInput');
           if(visibleSearch) visibleSearch.focus();
         }
+      
         if (e.key === 'Escape' && document.getElementById('faq-overlay').style.display === 'flex') {
           hideFaqOverlay();
         }
@@ -5514,6 +5777,7 @@ myself won’t be part of it.</li>
           targetElement.scrollIntoView({ block: 'start' });
           targetElement.style.outline = '2px solid var(--primary)';
           setTimeout(() => {
+          
             targetElement.style.outline = '';
           }, 1500);
         }
@@ -5522,6 +5786,11 @@ myself won’t be part of it.</li>
         }
       } else if (e.target.id === 'faq-close-btn') {
         hideFaqOverlay();
+      } else if (e.target.closest('.preview-btn')) {
+        const previewBtn = e.target.closest('.preview-btn');
+        const audioSrc = previewBtn.dataset.audioSrc;
+        const parentCell = previewBtn.parentElement;
+        createAudioPlayer(audioSrc, parentCell);
       }
     });
   </script>
