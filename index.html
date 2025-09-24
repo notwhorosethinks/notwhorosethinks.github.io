@@ -712,6 +712,23 @@
       display: flex;
       flex-direction: column;
       animation: slideInFromTop 0.4s ease;
+      font-size: 0.67em; /* New CSS */
+    }
+
+    #faq-search-container { /* New CSS */
+      padding: 1rem 2rem;
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    #faq-search-bar { /* New CSS */
+      width: 100%;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
+      background: var(--bg-primary);
+      color: var(--text-primary);
     }
     
     #faq-header {
@@ -775,7 +792,6 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      
     }
     
     .audio-player-container.is-playing .play-btn {
@@ -4862,6 +4878,9 @@ href="https://www.reddit.com/r/pillowtalkaudio/comments/rvd9du/m4f_entertainment
         <h2>Frequently Asked Questions</h2>
         <button id="faq-close-btn">✖</button>
       </div>
+      <div id="faq-search-container">
+        <input type="search" id="faq-search-bar" class="search-bar-style" placeholder="Search the FAQ..." />
+      </div>
       <div id="faq-content">
         <p>All of my content is owned by me, even content that you have paid to
 access. I retain all rights related to it, which means you are violating
@@ -5523,7 +5542,6 @@ myself won’t be part of it.</li>
     }
     
     let currentAudio = null;
-
     function createAudioPlayer(audioSrc, parentCell) {
         const player = document.createElement('div');
         player.className = 'audio-player-container';
@@ -5548,7 +5566,6 @@ myself won’t be part of it.</li>
             <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
           </button>
         `;
-        
         const audio = player.querySelector('audio');
         const playBtn = player.querySelector('.play-btn');
         const pauseBtn = player.querySelector('.pause-btn');
@@ -5566,7 +5583,6 @@ myself won’t be part of it.</li>
         }
 
         currentAudio = audio;
-
         playBtn.addEventListener('click', () => {
             if (currentAudio && currentAudio !== audio) {
                 currentAudio.pause();
@@ -5580,30 +5596,25 @@ myself won’t be part of it.</li>
             player.classList.add('is-playing');
             currentAudio = audio;
         });
-
         pauseBtn.addEventListener('click', () => {
             audio.pause();
             player.classList.remove('is-playing');
         });
-
         audio.addEventListener('timeupdate', () => {
             const progress = (audio.currentTime / audio.duration) * 100;
             progressBar.style.width = `${progress}%`;
         });
-        
         audio.addEventListener('ended', () => {
             player.classList.remove('is-playing');
             audio.currentTime = 0;
             progressBar.style.width = '0%';
         });
-        
         progressContainer.addEventListener('click', (e) => {
             const width = progressContainer.offsetWidth;
             const clickX = e.offsetX;
             const duration = audio.duration;
             audio.currentTime = (clickX / width) * duration;
         });
-        
         closeBtn.addEventListener('click', () => {
             audio.pause();
             player.remove();
@@ -5621,7 +5632,6 @@ myself won’t be part of it.</li>
                 currentAudio = null;
             }
         });
-
         parentCell.innerHTML = '';
         parentCell.appendChild(player);
     }
@@ -5665,12 +5675,29 @@ myself won’t be part of it.</li>
       if (sidebar.classList.contains('show')) {
         sidebar.classList.remove('show');
       }
+      // New: Show search bar and focus on it
+      const faqSearchContainer = document.getElementById('faq-search-container');
+      const faqSearchBar = document.getElementById('faq-search-bar');
+      if (faqSearchContainer && faqSearchBar) {
+        faqSearchContainer.style.display = 'block';
+        faqSearchBar.focus();
+      }
     }
 
     function hideFaqOverlay() {
       const overlay = document.getElementById('faq-overlay');
       overlay.style.display = 'none';
       document.body.style.overflow = 'auto';
+      // New: Hide search bar and clear input
+      const faqSearchBar = document.getElementById('faq-search-bar');
+      const faqItems = document.querySelectorAll('.faq-item');
+      if (faqSearchBar) {
+        faqSearchBar.value = '';
+        // Show all FAQ items when the search bar is hidden
+        faqItems.forEach((item) => {
+          item.style.display = 'block';
+        });
+      }
     }
 
     window.addEventListener("load", function () {
@@ -5684,7 +5711,7 @@ myself won’t be part of it.</li>
         currentTheme = getSystemTheme();
         localStorage.setItem('siteTheme', currentTheme);
       }
-    
+      
       const applyTheme = (theme) => {
         if (theme === 'dark') {
           document.body.classList.add('dark-mode');
@@ -5749,10 +5776,27 @@ myself won’t be part of it.</li>
         input.addEventListener('keydown', function(e) {
             if (e.key === 'Enter' && window.innerWidth <= 768) {
                 sidebar.classList.remove('show');
-          
             }
         });
       });
+
+      // New: Add keyup listener for the FAQ search bar
+      const faqSearchBar = document.getElementById('faq-search-bar');
+      const faqItems = document.querySelectorAll('.faq-item');
+      if (faqSearchBar) {
+        faqSearchBar.addEventListener('keyup', (e) => {
+          const searchText = e.target.value.toLowerCase();
+          faqItems.forEach((item) => {
+            const itemContent = item.textContent.toLowerCase();
+            if (itemContent.includes(searchText)) {
+              item.style.display = 'block';
+            } else {
+              item.style.display = 'none';
+            }
+          });
+        });
+      }
+
       document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape' && sidebar.classList.contains('show')) {
           sidebar.classList.remove('show');
