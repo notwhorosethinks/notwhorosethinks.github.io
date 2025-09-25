@@ -21,7 +21,6 @@
       --success: #10b981;
       --warning: #f59e0b;
       --error: #ef4444;
-      
       --bg-primary: #ffffff;
       --bg-secondary: #f8fafc;
       --bg-tertiary: #f1f5f9;
@@ -31,7 +30,6 @@
       --link-primary: #2563eb;
       --link-hover: #1d4ed8;
       --border-color: #e2e8f0;
-      
       --glass-bg: rgba(255, 255, 255, 0.85);
       --glass-border: rgba(99, 102, 241, 0.2);
       --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
@@ -44,10 +42,8 @@
       --gradient-success: linear-gradient(135deg, #10b981 0%, #059669 100%);
       --gradient-purple-blue: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #8b5cf6 100%);
       --gradient-electric: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #a855f7 100%);
-      
       --transition: all 0.2s ease;
       --transition-fast: all 0.1s ease;
-      
       --border-radius: 12px;
       --border-radius-lg: 16px;
       --border-radius-xl: 24px;
@@ -65,6 +61,10 @@
       --border-color: #334155;
       --glass-bg: rgba(15, 23, 42, 0.85);
       --glass-border: rgba(139, 92, 246, 0.3);
+    }
+    
+    html {
+        scroll-behavior: smooth;
     }
 
     ::-webkit-scrollbar {
@@ -712,23 +712,11 @@
       display: flex;
       flex-direction: column;
       animation: slideInFromTop 0.4s ease;
-      font-size: 0.67em; /* New CSS */
+      font-size: 0.67em;
     }
 
-    #faq-search-container { /* New CSS */
-      padding: 1rem 2rem;
-      background: var(--bg-secondary);
-      border-bottom: 1px solid var(--border-color);
-    }
-    
-    #faq-search-bar { /* New CSS */
-      width: 100%;
-      padding: 0.75rem 1rem;
-      font-size: 1rem;
-      border: 1px solid var(--border-color);
-      border-radius: var(--border-radius);
-      background: var(--bg-primary);
-      color: var(--text-primary);
+    #faq-search-container {
+      display: none;
     }
     
     #faq-header {
@@ -927,7 +915,8 @@ Exclusives</a>
     </div>
     <div class="search-container">
       <div class="search-icon">🔍</div>
-      <input id="searchInput" type="text" placeholder="Search content..." autocomplete="off" aria-label="Search content" />
+      <input id="searchInput" 
+        type="text" placeholder="Search content..." autocomplete="off" aria-label="Search content" />
     </div>
     <button id="darkModeToggle" class="btn" aria-label="Toggle dark mode">🌙 Dark Mode</button>
     
@@ -4879,7 +4868,7 @@ href="https://www.reddit.com/r/pillowtalkaudio/comments/rvd9du/m4f_entertainment
         <button id="faq-close-btn">✖</button>
       </div>
       <div id="faq-search-container">
-        <input type="search" id="faq-search-bar" class="search-bar-style" placeholder="Search the FAQ..." />
+        
       </div>
       <div id="faq-content">
         <p>All of my content is owned by me, even content that you have paid to
@@ -5507,33 +5496,34 @@ myself won’t be part of it.</li>
     }
 
     function highlightTerm(element, term) {
-      if (!term) return;
-      const text = element.textContent;
-      if (!text.toLowerCase().includes(term.toLowerCase())) return;
-      const regex = new RegExp('(?<!\\w)(' + escapeRegExp(term) + ')(?!\\w)', 'gi');
-      const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+      if (!term || term.trim() === '') return;
+      const regex = new RegExp('(' + escapeRegExp(term) + ')', 'gi');
+      const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, null, false);
       const textNodes = [];
       let node;
       while (node = walker.nextNode()) {
-        if (regex.test(node.textContent)) {
-          textNodes.push(node);
+        if (node.parentElement.tagName.toLowerCase() !== 'script' && node.parentElement.tagName.toLowerCase() !== 'style') {
+          if (regex.test(node.textContent)) {
+            textNodes.push(node);
+          }
         }
       }
       textNodes.forEach(textNode => {
-        const replacedText = textNode.textContent.replace(regex, '<span class="highlight">$1</span>');
-        if (replacedText !== textNode.textContent) {
-          const span = document.createElement('span');
-          span.innerHTML = replacedText;
-          textNode.replaceWith(...span.childNodes);
-        }
+        const span = document.createElement('span');
+        span.innerHTML = textNode.textContent.replace(regex, '<span class="highlight">$1</span>');
+        textNode.replaceWith(...span.childNodes);
       });
     }
 
     function debounce(func, wait) {
       let timeout;
       return function executedFunction(...args) {
+        const later = () => {
+          clearTimeout(timeout);
+          func(...args);
+        };
         clearTimeout(timeout);
-        timeout = setTimeout(() => func(...args), wait);
+        timeout = setTimeout(later, wait);
       };
     }
 
@@ -5576,10 +5566,12 @@ myself won’t be part of it.</li>
         if (currentAudio && currentAudio !== audio) {
             currentAudio.pause();
             const oldPlayer = currentAudio.closest('.audio-player-container');
-            const oldCell = oldPlayer.parentElement;
-            const oldLink = oldCell.querySelector('a');
-            oldPlayer.remove();
-            oldLink.style.display = 'inline-block';
+            if(oldPlayer) {
+              const oldCell = oldPlayer.parentElement;
+              const oldLink = oldCell.querySelector('a');
+              oldPlayer.remove();
+              if(oldLink) oldLink.style.display = 'inline-block';
+            }
         }
 
         currentAudio = audio;
@@ -5587,10 +5579,12 @@ myself won’t be part of it.</li>
             if (currentAudio && currentAudio !== audio) {
                 currentAudio.pause();
                 const oldPlayer = currentAudio.closest('.audio-player-container');
-                const oldCell = oldPlayer.parentElement;
-                const oldLink = oldCell.querySelector('a');
-                oldPlayer.remove();
-                oldLink.style.display = 'inline-block';
+                if(oldPlayer){
+                  const oldCell = oldPlayer.parentElement;
+                  const oldLink = oldCell.querySelector('a');
+                  oldPlayer.remove();
+                  if(oldLink) oldLink.style.display = 'inline-block';
+                }
             }
             audio.play();
             player.classList.add('is-playing');
@@ -5629,7 +5623,7 @@ myself won’t be part of it.</li>
             previewBtn.dataset.audioSrc = audioSrc;
             parentCell.appendChild(previewBtn);
             if(currentAudio === audio) {
-                currentAudio = null;
+              currentAudio = null;
             }
         });
         parentCell.innerHTML = '';
@@ -5667,6 +5661,7 @@ myself won’t be part of it.</li>
       });
     }
 
+    const originalFaqHTML = new Map();
     function showFaqOverlay() {
       const overlay = document.getElementById('faq-overlay');
       overlay.style.display = 'flex';
@@ -5675,63 +5670,53 @@ myself won’t be part of it.</li>
       if (sidebar.classList.contains('show')) {
         sidebar.classList.remove('show');
       }
-      // New: Show search bar and focus on it
-      const faqSearchContainer = document.getElementById('faq-search-container');
-      const faqSearchBar = document.getElementById('faq-search-bar');
-      if (faqSearchContainer && faqSearchBar) {
-        faqSearchContainer.style.display = 'block';
-        faqSearchBar.focus();
-      }
     }
 
     function hideFaqOverlay() {
       const overlay = document.getElementById('faq-overlay');
       overlay.style.display = 'none';
       document.body.style.overflow = 'auto';
-      // New: Hide search bar and clear input
+      
       const faqSearchBar = document.getElementById('faq-search-bar');
-      const faqItems = document.querySelectorAll('.faq-item');
       if (faqSearchBar) {
         faqSearchBar.value = '';
-        // Show all FAQ items when the search bar is hidden
-        faqItems.forEach((item) => {
-          item.style.display = 'block';
-        });
       }
+      
+      document.querySelectorAll('#faq-content .faq-item').forEach((item) => {
+        if (originalFaqHTML.has(item)) {
+            item.innerHTML = originalFaqHTML.get(item);
+        }
+        item.style.display = 'block';
+      });
     }
 
-    window.addEventListener("load", function () {
+    document.addEventListener("DOMContentLoaded", function () {
       if (localStorage.getItem("ageConfirmed") === "true") {
         document.getElementById("ageModal").style.display = "none";
       }
       makeTablesResponsive();
+
       const toggle = document.getElementById('darkModeToggle');
-      let currentTheme = localStorage.getItem('siteTheme');
-      if (!currentTheme) {
-        currentTheme = getSystemTheme();
-        localStorage.setItem('siteTheme', currentTheme);
-      }
+      let currentTheme = localStorage.getItem('siteTheme') || getSystemTheme();
+      localStorage.setItem('siteTheme', currentTheme);
       
       const applyTheme = (theme) => {
-        if (theme === 'dark') {
-          document.body.classList.add('dark-mode');
-        } else {
-          document.body.classList.remove('dark-mode');
-        }
+        document.body.classList.toggle('dark-mode', theme === 'dark');
         document.querySelectorAll('#darkModeToggle').forEach(btn => {
           btn.innerHTML = theme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
         });
       };
       
       applyTheme(currentTheme);
+
       document.body.addEventListener('click', function(e) {
         if (e.target.matches('#darkModeToggle')) {
-          const isDark = document.body.classList.toggle('dark-mode');
-          const newTheme = isDark ? 'dark' : 'light';
-          localStorage.setItem('siteTheme', newTheme);
-          applyTheme(newTheme);
+          let theme = document.body.classList.toggle('dark-mode') ? 'dark' : 'light';
+          localStorage.setItem('siteTheme', theme);
+          applyTheme(theme);
         }
       });
+      
       const sidebar = document.querySelector('.sidebar');
       const mobileHeader = document.querySelector('.mobile-header');
       const mobileNavContent = document.querySelector('.mobile-nav-content');
@@ -5741,15 +5726,14 @@ myself won’t be part of it.</li>
       if (navSection) mobileNavContent.appendChild(navSection.cloneNode(true));
       if (searchContainer) mobileNavContent.appendChild(searchContainer.cloneNode(true));
       if (darkModeButton) mobileNavContent.appendChild(darkModeButton.cloneNode(true));
-      mobileHeader.addEventListener('click', function () {
-        sidebar.classList.toggle('show');
-      });
+      
+      mobileHeader.addEventListener('click', () => sidebar.classList.toggle('show'));
+      
       const main = document.querySelector('.main');
-      const sections = main.querySelectorAll('section');
+      const sections = main.querySelectorAll('section:not(.faq-item)');
       const originalHTML = new Map();
-      sections.forEach(section => {
-        originalHTML.set(section, section.innerHTML);
-      });
+      sections.forEach(section => originalHTML.set(section, section.innerHTML));
+      
       const debouncedSearch = debounce(function(query) {
         sections.forEach(section => {
           section.innerHTML = originalHTML.get(section);
@@ -5757,76 +5741,54 @@ myself won’t be part of it.</li>
           const matches = sectionText.includes(query) || query === '';
           section.style.display = matches ? '' : 'none';
           if (matches && query !== '') {
-            
             section.querySelectorAll('tbody tr').forEach(row => {
-              const rowText = row.textContent.toLowerCase();
-              row.style.display = rowText.includes(query) ? '' : 'none';
+              row.style.display = row.textContent.toLowerCase().includes(query) ? '' : 'none';
             });
             highlightTerm(section, query);
           }
         });
-      
-      makeTablesResponsive();
+        makeTablesResponsive();
       }, 200);
       document.querySelectorAll('#searchInput').forEach(input => {
-        input.addEventListener('input', function () {
-          const query = this.value.trim().toLowerCase();
-          debouncedSearch(query);
-        });
-        input.addEventListener('keydown', function(e) {
+        input.addEventListener('input', e => debouncedSearch(e.target.value.trim().toLowerCase()));
+        input.addEventListener('keydown', e => {
             if (e.key === 'Enter' && window.innerWidth <= 768) {
                 sidebar.classList.remove('show');
             }
         });
       });
 
-      // New: Add keyup listener for the FAQ search bar
-      const faqSearchBar = document.getElementById('faq-search-bar');
-      const faqItems = document.querySelectorAll('.faq-item');
-      if (faqSearchBar) {
-        faqSearchBar.addEventListener('keyup', (e) => {
-          const searchText = e.target.value.toLowerCase();
-          faqItems.forEach((item) => {
-            const itemContent = item.textContent.toLowerCase();
-            if (itemContent.includes(searchText)) {
-              item.style.display = 'block';
-            } else {
-              item.style.display = 'none';
-            }
-          });
-        });
-      }
-
+      const faqItems = document.querySelectorAll('#faq-content .faq-item');
+      
+      faqItems.forEach(item => originalFaqHTML.set(item, item.innerHTML));
+      
       document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && sidebar.classList.contains('show')) {
-          sidebar.classList.remove('show');
+        if (e.key === 'Escape') {
+          if (sidebar.classList.contains('show')) sidebar.classList.remove('show');
+          if (document.getElementById('faq-overlay').style.display === 'flex') hideFaqOverlay();
         }
         if (e.key === '/' && !e.ctrlKey && !e.metaKey) {
-          e.preventDefault();
-          const visibleSearch = document.querySelector('.search-container:not([style*="display: none"]) #searchInput');
-          if(visibleSearch) visibleSearch.focus();
-        }
-      
-        if (e.key === 'Escape' && document.getElementById('faq-overlay').style.display === 'flex') {
-          hideFaqOverlay();
+          const activeElement = document.activeElement.tagName.toLowerCase();
+          if (activeElement !== 'input' && activeElement !== 'textarea') {
+            e.preventDefault();
+            document.querySelector('.search-container:not([style*="display: none"]) #searchInput')?.focus();
+          }
         }
       });
     });
+
     document.addEventListener('click', function(e) {
-      if (e.target.classList.contains('sidebar-link')) {
+      if (e.target.closest('.sidebar-link') && e.target.closest('.sidebar-link').getAttribute('href').startsWith('#')) {
         e.preventDefault();
-        const targetId = e.target.getAttribute('href').substring(1);
+        const targetId = e.target.closest('.sidebar-link').getAttribute('href').substring(1);
         const targetElement = document.getElementById(targetId);
         if (targetElement) {
           targetElement.scrollIntoView({ block: 'start' });
           targetElement.style.outline = '2px solid var(--primary)';
-          setTimeout(() => {
-          
-            targetElement.style.outline = '';
-          }, 1500);
+          setTimeout(() => targetElement.style.outline = '', 1500);
         }
         if (window.innerWidth <= 768) {
-            document.querySelector('.sidebar').classList.remove('show');
+          document.querySelector('.sidebar').classList.remove('show');
         }
       } else if (e.target.id === 'faq-close-btn') {
         hideFaqOverlay();
