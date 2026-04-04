@@ -1007,7 +1007,7 @@ You Saying?</a></td>
 [Riding]/[Cowgirl] [Creampie] [Accident]ally [Without Condom] implied
 [Birth Control] [13:35]</td>
 <td style="text-align: right;"><a
-href="https://archive.org/download/nosybrat/whatwereyousaying.mp3">Preview</a></td>
+href="https://archive.org/download/nosybrat/whatwereyousayingp1.mp3">Preview</a></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><a
@@ -5859,6 +5859,10 @@ myself won’t be part of it.</li>
       document.getElementById("ageModal").style.display = "none";
     }
 
+    function normalizeText(text) {
+      return text.replace(/\s+/g, ' ').trim();
+    }
+
     function escapeRegExp(string) {
       return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     }
@@ -6062,8 +6066,6 @@ myself won’t be part of it.</li>
       if (localStorage.getItem("ageConfirmed") === "true") {
         document.getElementById("ageModal").style.display = "none";
       }
-      makeTablesResponsive();
-
       const toggle = document.getElementById('darkModeToggle');
       let currentTheme = localStorage.getItem('siteTheme') || getSystemTheme();
       localStorage.setItem('siteTheme', currentTheme);
@@ -6101,16 +6103,17 @@ myself won’t be part of it.</li>
       const sections = main.querySelectorAll('section:not(.faq-item)');
       const originalHTML = new Map();
       sections.forEach(section => originalHTML.set(section, section.innerHTML));
+      makeTablesResponsive();
       
       const debouncedSearch = debounce(function(query) {
         sections.forEach(section => {
           section.innerHTML = originalHTML.get(section);
-          const sectionText = section.textContent.toLowerCase();
+          const sectionText = normalizeText(section.textContent).toLowerCase();
           const matches = sectionText.includes(query) || query === '';
           section.style.display = matches ? '' : 'none';
           if (matches && query !== '') {
             section.querySelectorAll('tbody tr').forEach(row => {
-              row.style.display = row.textContent.toLowerCase().includes(query) ? '' : 'none';
+              row.style.display = normalizeText(row.textContent).toLowerCase().includes(query) ? '' : 'none';
             });
             highlightTerm(section, query);
           }
@@ -6118,7 +6121,7 @@ myself won’t be part of it.</li>
         makeTablesResponsive();
       }, 200);
       document.querySelectorAll('#searchInput').forEach(input => {
-        input.addEventListener('input', e => debouncedSearch(e.target.value.trim().toLowerCase()));
+        input.addEventListener('input', e => debouncedSearch(normalizeText(e.target.value).toLowerCase()));
         input.addEventListener('keydown', e => {
             if (e.key === 'Enter' && window.innerWidth <= 768) {
                 sidebar.classList.remove('show');
