@@ -4,6 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>whorosethinks content</title>
+  
+  <!-- Added font preconnects for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="icon" type="image/png" href="https://notwhorosethinks.github.io/favicon.png">
   <style>
@@ -156,7 +161,7 @@
     .sidebar-link {
       display: flex;
       align-items: center;
-      padding: 1rem; /* Improved touch target padding */
+      padding: 1rem;
       color: var(--text-secondary);
       text-decoration: none;
       border-radius: var(--border-radius);
@@ -171,7 +176,7 @@
       text-underline-offset: 0.2em;
       text-decoration-color: var(--link-primary);
       text-decoration-thickness: 1px;
-      min-height: 44px; /* Ensure mobile touch target size */
+      min-height: 44px;
     }
 
     .sidebar-link::before {
@@ -302,7 +307,6 @@
       font-family: inherit;
     }
     
-    /* Native search clear button styling */
     .searchInput::-webkit-search-cancel-button {
       -webkit-appearance: none;
       height: 1em; width: 1em;
@@ -358,14 +362,14 @@
     .mobile-header, .mobile-nav-content { display: none; }
 
     @media (max-width: 768px) {
-      .main { margin-left: 0; padding-top: 80px; } /* Increased to ensure spacing from header */
+      .main { margin-left: 0; padding-top: 80px; } 
       
       .sidebar {
         position: fixed; width: 100%; height: auto; max-height: 100%;
         top: 0; left: 0; border-right: none; border-bottom: 2px solid var(--glass-border);
         animation: none; padding: 0; z-index: 1001;
         background: var(--bg-secondary);
-        box-shadow: var(--shadow-sm); /* Distinct visual separation on scroll */
+        box-shadow: var(--shadow-sm); 
       }
       .sidebar::before { display: none; }
 
@@ -381,7 +385,7 @@
       .mobile-search { display: block; flex-grow: 1; margin-right: 1rem; }
       .mobile-search .searchInput {
         padding: 0.65rem 1rem 0.65rem 2.75rem;
-        font-size: 16px; /* Prevents auto-zoom on iOS */
+        font-size: 16px; 
       }
 
       .toggle-btn {
@@ -389,7 +393,7 @@
         background: none; border: none;
         color: var(--text-primary); font-size: 1.75rem;
         cursor: pointer; padding: 0.5rem;
-        min-width: 44px; min-height: 44px; /* Ensure hit target size */
+        min-width: 44px; min-height: 44px; 
       }
 
       .mobile-nav-content {
@@ -415,12 +419,11 @@
         padding: 0.75rem; background: var(--glass-bg); backdrop-filter: blur(5px);
       }
       td {
-        text-align: left; padding: 0.25rem 0; /* Tightened padding */
-        border-bottom: 1px solid var(--glass-border); font-size: 0.85rem; /* Better legibility */
+        text-align: left; padding: 0.25rem 0; 
+        border-bottom: 1px solid var(--glass-border); font-size: 0.85rem; 
       }
       td:last-child { border-bottom: none; }
       
-      /* Display headers directly in the mobile card */
       td::before {
         content: attr(data-label);
         display: block;
@@ -461,12 +464,11 @@
     #faq-close-btn {
       background: none; border: none; color: white; font-size: 1.5rem;
       cursor: pointer; padding: 0.5rem; transition: transform 0.2s ease;
-      min-width: 44px; min-height: 44px; /* Touch target */
+      min-width: 44px; min-height: 44px; 
     }
     #faq-close-btn:hover { transform: rotate(90deg); }
     #faq-content { flex-grow: 1; padding: 2rem; overflow-y: auto; background: var(--bg-secondary); }
 
-    /* Audio Player Tap Target Fixes */
     .audio-player-container {
       display: flex; flex-direction: column; gap: 0.5rem;
       background: var(--bg-secondary); border-radius: var(--border-radius);
@@ -479,13 +481,13 @@
     .play-btn, .pause-btn {
       background: none; border: none; cursor: pointer; color: var(--primary);
       padding: 0; display: inline-flex; align-items: center; justify-content: center;
-      width: 3rem; height: 3rem; /* Larger tap target */
+      width: 3rem; height: 3rem; 
     }
     .pause-btn { display: none; }
     .play-icon, .pause-icon { width: 1.5rem; height: 1.5rem; fill: var(--primary); }
     
     .progress-bar-container {
-      flex-grow: 1; height: 44px; /* Fat-finger tap target for scrubbing */
+      flex-grow: 1; height: 44px; 
       display: flex; align-items: center; cursor: pointer; position: relative;
     }
     .progress-bar-track {
@@ -524,7 +526,8 @@ Exclusives</a>
 <a class="sidebar-link" href="https://www.patreon.com/c/whorosethinks/" target="_blank">Support Me</a>
     </div>
     <div class="search-container desktop-search">
-      <div class="search-icon">🔍</div>
+      <!-- Added aria-hidden for accessibility -->
+      <div class="search-icon" aria-hidden="true">🔍</div>
       <input class="searchInput" type="search" placeholder="Search content..." autocomplete="off" aria-label="Search content" />
     </div>
     <button id="darkModeToggle" class="btn" aria-label="Toggle dark mode">🌙 Dark Mode</button>
@@ -532,7 +535,8 @@ Exclusives</a>
     <div class="mobile-header">
       <h2>Menu</h2>
       <div class="search-container mobile-search">
-        <div class="search-icon">🔍</div>
+        <!-- Added aria-hidden for accessibility -->
+        <div class="search-icon" aria-hidden="true">🔍</div>
         <input class="searchInput" type="search" placeholder="Search..." autocomplete="off" aria-label="Search content" />
       </div>
       <button class="toggle-btn" aria-label="Toggle navigation">☰</button>
@@ -5814,7 +5818,6 @@ myself won’t be part of it.</li>
             player.classList.remove('is-playing'); audio.currentTime = 0; progressBar.style.width = '0%';
         });
         
-        // Tap Target calculated based on the invisible outer container limits
         progressContainer.addEventListener('click', (e) => {
             const rect = progressContainer.getBoundingClientRect();
             const clickX = e.clientX - rect.left;
@@ -5894,7 +5897,6 @@ myself won’t be part of it.</li>
       const mobileHeader = document.querySelector('.mobile-header');
       const mobileNavContent = document.querySelector('.mobile-nav-content');
       
-      // Clone Nav and Dark Mode to mobile menu, but ignore search since it's now in the header
       if (sidebar.querySelector('.nav-section')) mobileNavContent.appendChild(sidebar.querySelector('.nav-section').cloneNode(true));
       if (sidebar.querySelector('#darkModeToggle')) mobileNavContent.appendChild(sidebar.querySelector('#darkModeToggle').cloneNode(true));
       
@@ -5920,7 +5922,6 @@ myself won’t be part of it.</li>
         makeTablesResponsive();
       }, 200);
 
-      // Search Inputs Synchronization
       document.querySelectorAll('.searchInput').forEach(input => {
         input.addEventListener('input', e => {
           const val = e.target.value;
