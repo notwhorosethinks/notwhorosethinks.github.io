@@ -4,6 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>whorosethinks content</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="icon" type="image/png" href="https://notwhorosethinks.github.io/favicon.png">
   <style>
@@ -39,7 +43,6 @@
       --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
       --gradient-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
       --gradient-secondary: linear-gradient(135deg, #8b5cf6 0%, #c084fc 50%, #e879f9 100%);
-      --gradient-accent: linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%);
       --gradient-electric: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #a855f7 100%);
       --transition: all 0.2s ease;
       --transition-fast: all 0.1s ease;
@@ -62,34 +65,20 @@
       --glass-border: rgba(139, 92, 246, 0.3);
     }
     
-    html {
-        scroll-behavior: smooth;
-    }
+    html { scroll-behavior: smooth; }
 
-    ::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: var(--bg-tertiary);
-      border-radius: 3px;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: var(--gradient-primary);
-      border-radius: 3px;
-    }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-tertiary); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb { background: var(--gradient-primary); border-radius: 3px; }
 
     @keyframes slideInLeft {
       from { transform: translateX(-10px); opacity: 0; }
       to { transform: translateX(0); opacity: 1; }
     }
-
     @keyframes fadeIn {
       from { opacity: 0; }
       to { opacity: 1; }
     }
-    
     @keyframes slideInFromTop {
       from { transform: translateY(-50px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
@@ -97,305 +86,160 @@
 
     body {
       font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', roboto, sans-serif;
-      margin: 0;
-      background: var(--bg-primary);
-      color: var(--text-primary);
-      transition: var(--transition);
-      line-height: 1.6;
-      font-size: 18px;
-      font-weight: 700;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
+      margin: 0; background: var(--bg-primary); color: var(--text-primary);
+      transition: var(--transition); line-height: 1.6; font-size: 18px; font-weight: 700;
+      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
     }
 
     .sidebar {
-      position: fixed;
-      top: 0; left: 0;
-      height: 100vh;
-      width: 280px;
-      background: var(--glass-bg);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      border-right: 2px solid var(--glass-border);
-      padding: 2rem 1.5rem;
-      overflow-y: auto;
-      transition: var(--transition);
-      z-index: 1000;
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
+      position: fixed; top: 0; left: 0; height: 100vh; width: 280px;
+      background: var(--glass-bg); backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px); border-right: 2px solid var(--glass-border);
+      padding: 2rem 1.5rem; overflow-y: auto; transition: var(--transition);
+      z-index: 1000; display: flex; flex-direction: column; gap: 1.5rem;
       animation: slideInLeft 0.3s ease;
     }
-
     .sidebar::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: var(--gradient-primary);
-      opacity: 0.08;
-      pointer-events: none;
+      content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: var(--gradient-primary); opacity: 0.08; pointer-events: none;
     }
-
     .sidebar h2 {
-      font-size: 1.5rem;
-      font-weight: 700;
-      margin: 0;
-      background: var(--gradient-electric);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      letter-spacing: -0.025em;
+      font-size: 1.5rem; font-weight: 700; margin: 0;
+      background: var(--gradient-electric); -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: -0.025em;
     }
 
-    .nav-section {
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
-    }
+    .nav-section { display: flex; flex-direction: column; gap: 0.25rem; }
 
     .sidebar-link {
-      display: flex;
-      align-items: center;
-      padding: 1rem; /* Improved touch target padding */
-      color: var(--text-secondary);
-      text-decoration: none;
-      border-radius: var(--border-radius);
-      font-weight: 500;
-      font-size: 0.875rem;
-      transition: var(--transition);
-      position: relative;
-      overflow: hidden;
-      border: 1px solid transparent;
-      line-height: 1.2;
-      text-decoration-line: underline;
-      text-underline-offset: 0.2em;
-      text-decoration-color: var(--link-primary);
-      text-decoration-thickness: 1px;
-      min-height: 44px; /* Ensure mobile touch target size */
+      display: flex; align-items: center; padding: 1rem; color: var(--text-secondary);
+      text-decoration: none; border-radius: var(--border-radius); font-weight: 500;
+      font-size: 0.875rem; transition: var(--transition); position: relative; overflow: hidden;
+      border: 1px solid transparent; line-height: 1.2; text-decoration-line: underline;
+      text-underline-offset: 0.2em; text-decoration-color: var(--link-primary);
+      text-decoration-thickness: 1px; min-height: 44px;
     }
-
     .sidebar-link::before {
-      content: '';
-      position: absolute;
-      left: 0; top: 0; height: 100%; width: 3px;
-      background: var(--gradient-electric);
-      transform: scaleY(0);
-      transition: var(--transition-fast);
-      border-radius: 0 2px 2px 0;
+      content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 3px;
+      background: var(--gradient-electric); transform: scaleY(0);
+      transition: var(--transition-fast); border-radius: 0 2px 2px 0;
     }
-
     .sidebar-link:hover {
       background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
-      color: var(--link-hover);
-      transform: translateX(3px);
-      border-color: rgba(99, 102, 241, 0.2);
+      color: var(--link-hover); transform: translateX(3px); border-color: rgba(99, 102, 241, 0.2);
       text-decoration-color: var(--link-hover);
     }
     .sidebar-link:hover::before { transform: scaleY(1); }
 
     a:not(.sidebar-link):not(.btn) {
-      color: var(--link-primary);
-      text-decoration: underline;
-      text-underline-offset: 0.15em;
-      text-decoration-thickness: 1px;
-      transition: var(--transition-fast);
+      color: var(--link-primary); text-decoration: underline; text-underline-offset: 0.15em;
+      text-decoration-thickness: 1px; transition: var(--transition-fast);
     }
     a:not(.sidebar-link):not(.btn):hover { color: var(--link-hover); }
 
     .main {
-      margin-left: 280px;
-      min-height: 100vh;
-      background: var(--bg-primary);
-      transition: var(--transition);
-      animation: fadeIn 0.3s ease;
+      margin-left: 280px; min-height: 100vh; background: var(--bg-primary);
+      transition: var(--transition); animation: fadeIn 0.3s ease;
     }
-
-    .content-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 2rem;
-    }
+    .content-container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
 
     section {
-      background: var(--glass-bg);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid var(--glass-border);
-      border-radius: var(--border-radius-lg);
-      padding: 2rem;
-      margin-bottom: 2rem;
-      transition: var(--transition-fast);
-      position: relative;
-      overflow: hidden;
+      background: var(--glass-bg); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      border: 1px solid var(--glass-border); border-radius: var(--border-radius-lg);
+      padding: 2rem; margin-bottom: 2rem; transition: var(--transition-fast);
+      position: relative; overflow: hidden;
     }
-
     section::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0; height: 4px;
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
       background: var(--gradient-primary);
     }
-
-    section:hover {
-      transform: translateY(-1px);
-      box-shadow: var(--shadow-lg);
-      border-color: var(--primary);
-    }
-
+    section:hover { transform: translateY(-1px); box-shadow: var(--shadow-lg); border-color: var(--primary); }
     section h2 {
-      font-size: 1.75rem;
-      font-weight: 700;
-      margin: 0 0 1.5rem 0;
-      background: var(--gradient-electric);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      letter-spacing: -0.025em;
+      font-size: 1.75rem; font-weight: 700; margin: 0 0 1.5rem 0;
+      background: var(--gradient-electric); -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: -0.025em;
     }
 
     table {
-      width: 100%;
-      border-collapse: separate;
-      border-spacing: 0;
-      margin: 1.5rem 0;
-      background: var(--bg-primary);
-      border-radius: var(--border-radius-lg);
-      overflow: hidden;
-      box-shadow: var(--shadow-md);
+      width: 100%; border-collapse: separate; border-spacing: 0; margin: 1.5rem 0;
+      background: var(--bg-primary); border-radius: var(--border-radius-lg);
+      overflow: hidden; box-shadow: var(--shadow-md);
     }
-
     thead { background: var(--gradient-primary); }
-
     th {
-      padding: 1.25rem 1.5rem;
-      text-align: left;
-      font-weight: 600;
-      font-size: 0.875rem;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      color: white;
+      padding: 1.25rem 1.5rem; text-align: left; font-weight: 600;
+      font-size: 0.875rem; letter-spacing: 0.05em; text-transform: uppercase; color: white;
     }
-
-    tbody tr {
-      transition: background-color 0.15s ease;
-      border-bottom: 1px solid var(--border-color);
-    }
+    tbody tr { transition: background-color 0.15s ease; border-bottom: 1px solid var(--border-color); }
     tbody tr:last-child { border-bottom: none; }
     tbody tr:hover { background: linear-gradient(135deg, rgba(99, 102, 241, 0.06) 0%, rgba(139, 92, 246, 0.06) 100%); }
-
-    td {
-      padding: 1rem 1.5rem;
-      color: var(--text-primary);
-      font-size: 0.875rem;
-    }
+    td { padding: 1rem 1.5rem; color: var(--text-primary); font-size: 0.875rem; }
 
     .searchInput {
-      width: 100%;
-      padding: 1rem 1rem 1rem 3rem;
-      font-size: 0.875rem;
-      font-weight: 500;
-      background: var(--glass-bg);
-      border: 2px solid var(--border-color);
-      border-radius: var(--border-radius-xl);
-      color: var(--text-primary);
-      transition: var(--transition-fast);
-      font-family: inherit;
+      width: 100%; padding: 1rem 1rem 1rem 3rem; font-size: 0.875rem; font-weight: 500;
+      background: var(--glass-bg); border: 2px solid var(--border-color);
+      border-radius: var(--border-radius-xl); color: var(--text-primary);
+      transition: var(--transition-fast); font-family: inherit;
     }
-    
-    /* Native search clear button styling */
     .searchInput::-webkit-search-cancel-button {
-      -webkit-appearance: none;
-      height: 1em; width: 1em;
-      background: var(--text-muted);
+      -webkit-appearance: none; height: 1em; width: 1em; background: var(--text-muted);
       mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>') center/cover;
       cursor: pointer;
     }
-
     .searchInput:focus {
-      outline: none;
-      border: 2px solid var(--primary);
-      background: var(--bg-primary);
+      outline: none; border: 2px solid var(--primary); background: var(--bg-primary);
       box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
     }
-
     .search-container { position: relative; }
     .search-icon {
-      position: absolute;
-      left: 1rem;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--primary);
-      font-size: 1.125rem;
-      pointer-events: none;
+      position: absolute; left: 1rem; top: 50%; transform: translateY(-50%);
+      color: var(--primary); font-size: 1.125rem; pointer-events: none;
     }
 
     .btn {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      padding: 0.75rem 1.5rem; font-size: 0.875rem; font-weight: 600;
-      border: none; border-radius: var(--border-radius); cursor: pointer;
-      transition: var(--transition);
+      display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem;
+      font-size: 0.875rem; font-weight: 600; border: none; border-radius: var(--border-radius);
+      cursor: pointer; transition: var(--transition);
     }
     .btn-primary { background: var(--gradient-primary); color: white; }
     .btn-primary:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+      transform: translateY(-1px); box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
       background: var(--gradient-electric);
     }
-
-    #darkModeToggle {
-      background: var(--glass-bg);
-      color: var(--text-primary);
-      border: 2px solid var(--glass-border);
-    }
+    #darkModeToggle { background: var(--glass-bg); color: var(--text-primary); border: 2px solid var(--glass-border); }
     #darkModeToggle:hover {
-      background: var(--gradient-primary);
-      color: white; border-color: transparent;
-      transform: translateY(-1px);
-      box-shadow: var(--shadow-lg);
+      background: var(--gradient-primary); color: white; border-color: transparent;
+      transform: translateY(-1px); box-shadow: var(--shadow-lg);
     }
 
     .toggle-btn, .mobile-search { display: none; }
     .mobile-header, .mobile-nav-content { display: none; }
 
     @media (max-width: 768px) {
-      .main { margin-left: 0; padding-top: 80px; } /* Increased to ensure spacing from header */
-      
+      .main { margin-left: 0; padding-top: 80px; } 
       .sidebar {
-        position: fixed; width: 100%; height: auto; max-height: 100%;
-        top: 0; left: 0; border-right: none; border-bottom: 2px solid var(--glass-border);
-        animation: none; padding: 0; z-index: 1001;
-        background: var(--bg-secondary);
-        box-shadow: var(--shadow-sm); /* Distinct visual separation on scroll */
+        position: fixed; width: 100%; height: auto; max-height: 100%; top: 0; left: 0;
+        border-right: none; border-bottom: 2px solid var(--glass-border); animation: none;
+        padding: 0; z-index: 1001; background: var(--bg-secondary); box-shadow: var(--shadow-sm); 
       }
       .sidebar::before { display: none; }
-
       .sidebar > .nav-section, .sidebar > .desktop-search, 
       .sidebar > #darkModeToggle, .sidebar > h2 { display: none !important; }
       
-      .mobile-header {
-        display: flex; align-items: center; justify-content: space-between;
-        padding: 0.75rem 1rem;
-      }
+      .mobile-header { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem; }
       .mobile-header h2 { display: none; } 
       
       .mobile-search { display: block; flex-grow: 1; margin-right: 1rem; }
-      .mobile-search .searchInput {
-        padding: 0.65rem 1rem 0.65rem 2.75rem;
-        font-size: 16px; /* Prevents auto-zoom on iOS */
-      }
+      .mobile-search .searchInput { padding: 0.65rem 1rem 0.65rem 2.75rem; font-size: 16px; }
 
       .toggle-btn {
-        display: flex; align-items: center; justify-content: center; 
-        background: none; border: none;
-        color: var(--text-primary); font-size: 1.75rem;
-        cursor: pointer; padding: 0.5rem;
-        min-width: 44px; min-height: 44px; /* Ensure hit target size */
+        display: flex; align-items: center; justify-content: center; background: none; border: none;
+        color: var(--text-primary); font-size: 1.75rem; cursor: pointer; padding: 0.5rem;
+        min-width: 44px; min-height: 44px; 
       }
-
       .mobile-nav-content {
-        display: flex; flex-direction: column; gap: 1.5rem;
-        max-height: 0; overflow: hidden; padding: 0 1.5rem;
-        transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+        display: flex; flex-direction: column; gap: 1.5rem; max-height: 0; overflow: hidden;
+        padding: 0 1.5rem; transition: max-height 0.4s ease-out, padding 0.4s ease-out;
       }
       .sidebar.show .mobile-nav-content { max-height: 100vh; padding: 1.5rem 1.5rem 2rem; }
 
@@ -404,32 +248,18 @@
       #first-content-section { order: 2; }
       #second-content-section { order: 1; }
 
-      table {
-        display: grid; grid-template-columns: minmax(0, 500px);
-        justify-content: center; gap: 1rem; box-shadow: none; background: transparent;
-      }
+      table { display: grid; grid-template-columns: minmax(0, 500px); justify-content: center; gap: 1rem; box-shadow: none; background: transparent; }
       thead { display: none; }
       tbody, tr, td { display: block; }
       tr {
         border: 1px solid var(--glass-border); border-radius: var(--border-radius);
         padding: 0.75rem; background: var(--glass-bg); backdrop-filter: blur(5px);
       }
-      td {
-        text-align: left; padding: 0.25rem 0; /* Tightened padding */
-        border-bottom: 1px solid var(--glass-border); font-size: 0.85rem; /* Better legibility */
-      }
+      td { text-align: left; padding: 0.25rem 0; border-bottom: 1px solid var(--glass-border); font-size: 0.85rem; }
       td:last-child { border-bottom: none; }
-      
-      /* Display headers directly in the mobile card */
       td::before {
-        content: attr(data-label);
-        display: block;
-        font-weight: 600;
-        color: var(--primary);
-        margin-bottom: 0.15rem;
-        font-size: 0.75rem;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
+        content: attr(data-label); display: block; font-weight: 600; color: var(--primary);
+        margin-bottom: 0.15rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;
       }
     }
 
@@ -446,12 +276,10 @@
       background: rgba(0, 0, 0, 0.8); z-index: 2000;
       display: none; justify-content: center; align-items: center;
     }
-    
     #faq-container {
       background: var(--bg-primary); width: 90%; max-width: 800px; height: 90%;
-      border-radius: var(--border-radius-lg); box-shadow: var(--shadow-xl);
-      overflow: hidden; display: flex; flex-direction: column;
-      animation: slideInFromTop 0.4s ease; font-size: 0.85em;
+      border-radius: var(--border-radius-lg); box-shadow: var(--shadow-xl); overflow: hidden;
+      display: flex; flex-direction: column; animation: slideInFromTop 0.4s ease; font-size: 0.85em;
     }
     #faq-header {
       padding: 1rem 2rem; background: var(--gradient-primary);
@@ -459,34 +287,32 @@
     }
     #faq-header h2 { margin: 0; font-size: 1.25rem; color: white; -webkit-text-fill-color: initial; }
     #faq-close-btn {
-      background: none; border: none; color: white; font-size: 1.5rem;
-      cursor: pointer; padding: 0.5rem; transition: transform 0.2s ease;
-      min-width: 44px; min-height: 44px; /* Touch target */
+      background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; padding: 0.5rem;
+      transition: transform 0.2s ease; min-width: 44px; min-height: 44px; 
     }
     #faq-close-btn:hover { transform: rotate(90deg); }
     #faq-content { flex-grow: 1; padding: 2rem; overflow-y: auto; background: var(--bg-secondary); }
 
-    /* Audio Player Tap Target Fixes */
+    /* Audio Player Redesign */
     .audio-player-container {
-      display: flex; flex-direction: column; gap: 0.5rem;
+      display: flex; flex-direction: column;
       background: var(--bg-secondary); border-radius: var(--border-radius);
-      padding: 0.75rem; position: relative;
+      padding: 0.5rem 0.75rem; width: 100%; box-sizing: border-box;
     }
-    .audio-controls { display: flex; align-items: center; gap: 0.5rem; }
+    .audio-controls { display: flex; align-items: center; gap: 0.75rem; width: 100%; }
     .audio-player-container.is-playing .play-btn { display: none; }
     .audio-player-container.is-playing .pause-btn { display: inline-flex; }
 
     .play-btn, .pause-btn {
       background: none; border: none; cursor: pointer; color: var(--primary);
       padding: 0; display: inline-flex; align-items: center; justify-content: center;
-      width: 3rem; height: 3rem; /* Larger tap target */
+      width: 2.5rem; height: 2.5rem; flex-shrink: 0;
     }
     .pause-btn { display: none; }
     .play-icon, .pause-icon { width: 1.5rem; height: 1.5rem; fill: var(--primary); }
     
     .progress-bar-container {
-      flex-grow: 1; height: 44px; /* Fat-finger tap target for scrubbing */
-      display: flex; align-items: center; cursor: pointer; position: relative;
+      flex-grow: 1; height: 44px; display: flex; align-items: center; cursor: pointer; position: relative;
     }
     .progress-bar-track {
       position: absolute; left: 0; right: 0; height: 6px;
@@ -499,14 +325,16 @@
     
     .close-audio-btn {
       background: none; border: none; color: var(--text-muted); cursor: pointer;
-      position: absolute; top: 0.25rem; right: 0.25rem;
-      width: 44px; height: 44px; display: flex; justify-content: center; align-items: center;
+      display: flex; justify-content: center; align-items: center;
+      width: 2.5rem; height: 2.5rem; flex-shrink: 0;
+      font-size: 1.25rem; border-radius: 50%; transition: var(--transition-fast);
     }
+    .close-audio-btn:hover { background: rgba(0,0,0,0.05); color: var(--text-primary); }
+
     .preview-btn {
       background: var(--gradient-primary); color: white; border: none;
       padding: 0.6rem 1rem; font-size: 0.8rem; font-weight: 500; border-radius: 8px; cursor: pointer;
-      display: inline-flex; align-items: center; gap: 0.25rem;
-      min-height: 44px;
+      display: inline-flex; align-items: center; gap: 0.25rem; min-height: 44px;
     }
     .preview-btn .play-icon { fill: white; width: 1rem; height: 1rem; }
 
@@ -524,7 +352,7 @@ Exclusives</a>
 <a class="sidebar-link" href="https://www.patreon.com/c/whorosethinks/" target="_blank">Support Me</a>
     </div>
     <div class="search-container desktop-search">
-      <div class="search-icon">🔍</div>
+      <div class="search-icon" aria-hidden="true">🔍</div>
       <input class="searchInput" type="search" placeholder="Search content..." autocomplete="off" aria-label="Search content" />
     </div>
     <button id="darkModeToggle" class="btn" aria-label="Toggle dark mode">🌙 Dark Mode</button>
@@ -532,7 +360,7 @@ Exclusives</a>
     <div class="mobile-header">
       <h2>Menu</h2>
       <div class="search-container mobile-search">
-        <div class="search-icon">🔍</div>
+        <div class="search-icon" aria-hidden="true">🔍</div>
         <input class="searchInput" type="search" placeholder="Search..." autocomplete="off" aria-label="Search content" />
       </div>
       <button class="toggle-btn" aria-label="Toggle navigation">☰</button>
@@ -5768,7 +5596,7 @@ myself won’t be part of it.</li>
     }
 
     let currentAudio = null;
-    function createAudioPlayer(audioSrc, parentCell) {
+    function createAudioPlayer(audioSrc, parentCell, btnElement) {
         const player = document.createElement('div');
         player.className = 'audio-player-container';
         player.innerHTML = `
@@ -5784,8 +5612,8 @@ myself won’t be part of it.</li>
               <div class="progress-bar-track"></div>
               <div class="progress-bar"></div>
             </div>
+            <button class="close-audio-btn" aria-label="Close Player">✖</button>
           </div>
-          <button class="close-audio-btn" aria-label="Close Player">✖</button>
         `;
         const audio = player.querySelector('audio');
         const playBtn = player.querySelector('.play-btn');
@@ -5798,9 +5626,10 @@ myself won’t be part of it.</li>
             currentAudio.pause();
             const oldPlayer = currentAudio.closest('.audio-player-container');
             if(oldPlayer) {
-              const oldLink = oldPlayer.parentElement.querySelector('a');
+              const oldCell = oldPlayer.parentElement;
               oldPlayer.remove();
-              if(oldLink) oldLink.style.display = 'inline-block';
+              const oldBtn = oldCell.querySelector('.preview-btn');
+              if (oldBtn) oldBtn.style.display = 'inline-flex';
             }
         }
 
@@ -5808,14 +5637,14 @@ myself won’t be part of it.</li>
         playBtn.addEventListener('click', () => { audio.play(); player.classList.add('is-playing'); });
         pauseBtn.addEventListener('click', () => { audio.pause(); player.classList.remove('is-playing'); });
         audio.addEventListener('timeupdate', () => {
-            progressBar.style.width = `${(audio.currentTime / audio.duration) * 100}%`;
+            if (audio.duration) progressBar.style.width = `${(audio.currentTime / audio.duration) * 100}%`;
         });
         audio.addEventListener('ended', () => {
             player.classList.remove('is-playing'); audio.currentTime = 0; progressBar.style.width = '0%';
         });
         
-        // Tap Target calculated based on the invisible outer container limits
         progressContainer.addEventListener('click', (e) => {
+            if (!audio.duration) return;
             const rect = progressContainer.getBoundingClientRect();
             const clickX = e.clientX - rect.left;
             audio.currentTime = (clickX / progressContainer.offsetWidth) * audio.duration;
@@ -5823,14 +5652,11 @@ myself won’t be part of it.</li>
         
         closeBtn.addEventListener('click', () => {
             audio.pause(); player.remove();
-            const previewBtn = document.createElement('button');
-            previewBtn.className = 'preview-btn';
-            previewBtn.innerHTML = `<svg class="play-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>Preview`;
-            previewBtn.dataset.audioSrc = audioSrc;
-            parentCell.appendChild(previewBtn);
-            if(currentAudio === audio) currentAudio = null;
+            if (btnElement) btnElement.style.display = 'inline-flex';
+            if (currentAudio === audio) currentAudio = null;
         });
-        parentCell.innerHTML = '';
+        
+        btnElement.style.display = 'none';
         parentCell.appendChild(player);
     }
     
@@ -5845,12 +5671,15 @@ myself won’t be part of it.</li>
           if (thirdCell && thirdCell.children.length > 0) {
             const link = thirdCell.querySelector('a');
             if (link && link.href.endsWith('.mp3')) {
-              const audioSrc = link.href; link.style.display = 'none';
-              const previewBtn = document.createElement('button');
-              previewBtn.className = 'preview-btn';
-              previewBtn.innerHTML = `<svg class="play-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>Preview`;
-              previewBtn.dataset.audioSrc = audioSrc;
-              thirdCell.appendChild(previewBtn);
+              // Safety check prevents button duplication if one already exists
+              if (!thirdCell.querySelector('.preview-btn') && !thirdCell.querySelector('.audio-player-container')) {
+                const audioSrc = link.href; link.style.display = 'none';
+                const previewBtn = document.createElement('button');
+                previewBtn.className = 'preview-btn';
+                previewBtn.innerHTML = `<svg class="play-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>Preview`;
+                previewBtn.dataset.audioSrc = audioSrc;
+                thirdCell.appendChild(previewBtn);
+              }
             }
           }
         });
@@ -5894,7 +5723,6 @@ myself won’t be part of it.</li>
       const mobileHeader = document.querySelector('.mobile-header');
       const mobileNavContent = document.querySelector('.mobile-nav-content');
       
-      // Clone Nav and Dark Mode to mobile menu, but ignore search since it's now in the header
       if (sidebar.querySelector('.nav-section')) mobileNavContent.appendChild(sidebar.querySelector('.nav-section').cloneNode(true));
       if (sidebar.querySelector('#darkModeToggle')) mobileNavContent.appendChild(sidebar.querySelector('#darkModeToggle').cloneNode(true));
       
@@ -5906,6 +5734,12 @@ myself won’t be part of it.</li>
       makeTablesResponsive();
       
       const debouncedSearch = debounce(function(query) {
+        // Prevents ghost audio playing behind the scenes after a reset
+        if (currentAudio) {
+            currentAudio.pause();
+            currentAudio = null;
+        }
+        
         sections.forEach(section => {
           section.innerHTML = originalHTML.get(section);
           const matches = normalizeText(section.textContent).toLowerCase().includes(query) || query === '';
@@ -5920,7 +5754,6 @@ myself won’t be part of it.</li>
         makeTablesResponsive();
       }, 200);
 
-      // Search Inputs Synchronization
       document.querySelectorAll('.searchInput').forEach(input => {
         input.addEventListener('input', e => {
           const val = e.target.value;
@@ -5961,7 +5794,7 @@ myself won’t be part of it.</li>
         hideFaqOverlay();
       } else if (e.target.closest('.preview-btn')) {
         const btn = e.target.closest('.preview-btn');
-        createAudioPlayer(btn.dataset.audioSrc, btn.parentElement);
+        createAudioPlayer(btn.dataset.audioSrc, btn.parentElement, btn);
       }
     });
   </script>
