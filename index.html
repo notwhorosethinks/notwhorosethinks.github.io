@@ -264,9 +264,24 @@
         margin-bottom: 0.15rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;
       }
       
-      /* Force hide the label if the cell contains audio preview buttons */
+      /* Perfect flexbox centering for the button cell */
+      td.no-mobile-label {
+        display: flex;
+        align-items: center; /* Erases baseline vertical drift */
+        padding: 0.75rem 0; /* Add generous top/bottom padding to perfectly frame the button */
+      }
       td.no-mobile-label::before {
         display: none !important;
+      }
+      
+      /* Translates Pandoc's horizontal alignments into Flexbox rules to preserve layout */
+      td[style*="text-align: right"].no-mobile-label,
+      td[style*="text-align:right"].no-mobile-label {
+        justify-content: flex-end;
+      }
+      td[style*="text-align: center"].no-mobile-label,
+      td[style*="text-align:center"].no-mobile-label {
+        justify-content: center;
       }
     }
 
@@ -5681,10 +5696,8 @@ myself won’t be part of it.</li>
             const link = thirdCell.querySelector('a');
             if (link && link.href.endsWith('.mp3')) {
               
-              // Forcefully add a class to the cell to strip out the mobile label
               thirdCell.classList.add('no-mobile-label');
               
-              // Safety check prevents button duplication if one already exists
               if (!thirdCell.querySelector('.preview-btn') && !thirdCell.querySelector('.audio-player-container')) {
                 const audioSrc = link.href; link.style.display = 'none';
                 const previewBtn = document.createElement('button');
@@ -5747,7 +5760,6 @@ myself won’t be part of it.</li>
       makeTablesResponsive();
       
       const debouncedSearch = debounce(function(query) {
-        // Prevents ghost audio playing behind the scenes after a reset
         if (currentAudio) {
             currentAudio.pause();
             currentAudio = null;
