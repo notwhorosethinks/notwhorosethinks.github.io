@@ -257,9 +257,16 @@
       }
       td { text-align: left; padding: 0.25rem 0; border-bottom: 1px solid var(--glass-border); font-size: 0.85rem; }
       td:last-child { border-bottom: none; }
-      td::before {
+      
+      /* Standard mobile data label styling */
+      td[data-label]::before {
         content: attr(data-label); display: block; font-weight: 600; color: var(--primary);
         margin-bottom: 0.15rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;
+      }
+      
+      /* Force hide the label if the cell contains audio preview buttons */
+      td.no-mobile-label::before {
+        display: none !important;
       }
     }
 
@@ -385,7 +392,7 @@ Exclusives</h2>
 <tr>
 <th style="text-align: left;">Title/Patreon Link</th>
 <th style="text-align: left;">Tags</th>
-<th style="text-align: right;">Preview</th>
+<th style="text-align: right;"></th>
 </tr>
 </thead>
 <tbody>
@@ -5662,15 +5669,21 @@ myself won’t be part of it.</li>
     
     function makeTablesResponsive() {
       document.querySelectorAll('table').forEach(table => {
-        const headers = Array.from(table.querySelectorAll('thead th')).map(th => th.textContent);
+        const headers = Array.from(table.querySelectorAll('thead th')).map(th => th.textContent.trim());
         table.querySelectorAll('tbody tr').forEach(row => {
           row.querySelectorAll('td').forEach((cell, i) => {
-            if (headers[i]) cell.setAttribute('data-label', headers[i]);
+            if (headers[i]) { 
+              cell.setAttribute('data-label', headers[i]);
+            }
           });
           const thirdCell = row.querySelectorAll('td')[2];
           if (thirdCell && thirdCell.children.length > 0) {
             const link = thirdCell.querySelector('a');
             if (link && link.href.endsWith('.mp3')) {
+              
+              // Forcefully add a class to the cell to strip out the mobile label
+              thirdCell.classList.add('no-mobile-label');
+              
               // Safety check prevents button duplication if one already exists
               if (!thirdCell.querySelector('.preview-btn') && !thirdCell.querySelector('.audio-player-container')) {
                 const audioSrc = link.href; link.style.display = 'none';
