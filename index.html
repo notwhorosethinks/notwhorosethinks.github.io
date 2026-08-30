@@ -263,7 +263,7 @@
         margin-bottom: 0.15rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;
       }
       
-      /* Perfect flexbox centering for the button cell */
+      /* Perfect flexbox centering for the button cell AND standard links */
       td.no-mobile-label {
         display: flex;
         align-items: center; 
@@ -5689,10 +5689,22 @@ myself won’t be part of it.</li>
         const headers = Array.from(table.querySelectorAll('thead th')).map(th => th.textContent.trim());
         table.querySelectorAll('tbody tr').forEach(row => {
           row.querySelectorAll('td').forEach((cell, i) => {
+            // Apply standard data labels, OR tag as an action cell if the header is exactly "Preview"
             if (headers[i]) { 
-              cell.setAttribute('data-label', headers[i]);
+              if (headers[i].toLowerCase() === 'preview') {
+                cell.classList.add('no-mobile-label');
+              } else {
+                cell.setAttribute('data-label', headers[i]);
+              }
+            }
+            
+            // Explicitly tag any cell with a standard link that just says "Preview"
+            const link = cell.querySelector('a');
+            if (link && link.textContent.trim().toLowerCase() === 'preview') {
+                cell.classList.add('no-mobile-label');
             }
           });
+          
           const thirdCell = row.querySelectorAll('td')[2];
           if (thirdCell && thirdCell.children.length > 0) {
             const link = thirdCell.querySelector('a');
