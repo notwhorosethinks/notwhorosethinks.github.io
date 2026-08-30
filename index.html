@@ -258,7 +258,6 @@
       td { text-align: left; padding: 0.25rem 0; border-bottom: 1px solid var(--glass-border); font-size: 0.85rem; }
       td:last-child { border-bottom: none; }
       
-      /* Standard mobile data label styling */
       td[data-label]::before {
         content: attr(data-label); display: block; font-weight: 600; color: var(--primary);
         margin-bottom: 0.15rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;
@@ -267,14 +266,17 @@
       /* Perfect flexbox centering for the button cell */
       td.no-mobile-label {
         display: flex;
-        align-items: center; /* Erases baseline vertical drift */
-        padding: 0.75rem 0; /* Add generous top/bottom padding to perfectly frame the button */
+        align-items: center; 
+        padding: 0.75rem 0; 
+      }
+      /* Strips double bottom-padding from the end of the card to perfectly center the element */
+      td.no-mobile-label:last-child {
+        padding-bottom: 0;
       }
       td.no-mobile-label::before {
         display: none !important;
       }
       
-      /* Translates Pandoc's horizontal alignments into Flexbox rules to preserve layout */
       td[style*="text-align: right"].no-mobile-label,
       td[style*="text-align:right"].no-mobile-label {
         justify-content: flex-end;
