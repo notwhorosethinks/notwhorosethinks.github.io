@@ -263,7 +263,7 @@
         margin-bottom: 0.15rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;
       }
       
-      /* Perfect flexbox centering for the button cell AND standard links */
+      /* Perfect flexbox centering for the button cell */
       td.no-mobile-label {
         display: flex;
         align-items: center; 
@@ -317,7 +317,7 @@
     #faq-close-btn:hover { transform: rotate(90deg); }
     #faq-content { flex-grow: 1; padding: 2rem; overflow-y: auto; background: var(--bg-secondary); }
 
-    /* Audio Player Redesign */
+    /* Audio Player & Button Redesign */
     .audio-player-container {
       display: flex; flex-direction: column;
       background: var(--bg-secondary); border-radius: var(--border-radius);
@@ -355,12 +355,27 @@
     }
     .close-audio-btn:hover { background: rgba(0,0,0,0.05); color: var(--text-primary); }
 
-    .preview-btn {
-      background: var(--gradient-primary); color: white; border: none;
+    .preview-btn, a.preview-btn {
+      background: var(--gradient-primary); color: white !important; border: none;
       padding: 0.6rem 1rem; font-size: 0.8rem; font-weight: 500; border-radius: 8px; cursor: pointer;
       display: inline-flex; align-items: center; gap: 0.25rem; min-height: 44px;
+      text-decoration: none !important;
     }
     .preview-btn .play-icon { fill: white; width: 1rem; height: 1rem; }
+    
+    /* Hollow external link button for non-audio previews */
+    a.preview-btn.external-preview {
+      background: transparent;
+      color: var(--primary) !important;
+      border: 2px solid var(--primary);
+      /* Subtract 2px from padding to offset border thickness, maintaining exact same height as mp3 buttons */
+      padding: calc(0.6rem - 2px) calc(1rem - 2px); 
+      box-shadow: none;
+    }
+    a.preview-btn.external-preview:hover {
+      background: rgba(99, 102, 241, 0.08);
+      transform: translateY(-1px);
+    }
 
   </style>
 </head>
@@ -5698,30 +5713,30 @@ myself won’t be part of it.</li>
               }
             }
             
-            // Explicitly tag any cell with a standard link that just says "Preview"
+            // Scan for action links in any cell
             const link = cell.querySelector('a');
-            if (link && link.textContent.trim().toLowerCase() === 'preview') {
+            if (link) {
+              if (link.href.endsWith('.mp3')) {
                 cell.classList.add('no-mobile-label');
-            }
-          });
-          
-          const thirdCell = row.querySelectorAll('td')[2];
-          if (thirdCell && thirdCell.children.length > 0) {
-            const link = thirdCell.querySelector('a');
-            if (link && link.href.endsWith('.mp3')) {
-              
-              thirdCell.classList.add('no-mobile-label');
-              
-              if (!thirdCell.querySelector('.preview-btn') && !thirdCell.querySelector('.audio-player-container')) {
-                const audioSrc = link.href; link.style.display = 'none';
-                const previewBtn = document.createElement('button');
-                previewBtn.className = 'preview-btn';
-                previewBtn.innerHTML = `<svg class="play-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>Preview`;
-                previewBtn.dataset.audioSrc = audioSrc;
-                thirdCell.appendChild(previewBtn);
+                if (!cell.querySelector('.preview-btn') && !cell.querySelector('.audio-player-container')) {
+                  const audioSrc = link.href; 
+                  link.style.display = 'none';
+                  const previewBtn = document.createElement('button');
+                  previewBtn.className = 'preview-btn';
+                  previewBtn.innerHTML = `<svg class="play-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>Preview`;
+                  previewBtn.dataset.audioSrc = audioSrc;
+                  cell.appendChild(previewBtn);
+                }
+              } 
+              // Convert standard external 'Preview' links into perfectly aligned outline buttons
+              else if (link.textContent.trim().toLowerCase() === 'preview') {
+                cell.classList.add('no-mobile-label');
+                if (!link.classList.contains('preview-btn')) {
+                  link.classList.add('preview-btn', 'external-preview');
+                }
               }
             }
-          }
+          });
         });
       });
     }
@@ -5831,7 +5846,8 @@ myself won’t be part of it.</li>
         if (window.innerWidth <= 768) document.querySelector('.sidebar').classList.remove('show');
       } else if (e.target.closest('#faq-close-btn')) {
         hideFaqOverlay();
-      } else if (e.target.closest('.preview-btn')) {
+      } else if (e.target.closest('.preview-btn') && !e.target.closest('.external-preview')) {
+        // Only launch the audio player for the primary mp3 buttons, let standard links navigate normally
         const btn = e.target.closest('.preview-btn');
         createAudioPlayer(btn.dataset.audioSrc, btn.parentElement, btn);
       }
