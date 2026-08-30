@@ -40,8 +40,6 @@
       --gradient-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
       --gradient-secondary: linear-gradient(135deg, #8b5cf6 0%, #c084fc 50%, #e879f9 100%);
       --gradient-accent: linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #6366f1 100%);
-      --gradient-success: linear-gradient(135deg, #10b981 0%, #059669 100%);
-      --gradient-purple-blue: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #8b5cf6 100%);
       --gradient-electric: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #a855f7 100%);
       --transition: all 0.2s ease;
       --transition-fast: all 0.1s ease;
@@ -96,12 +94,6 @@
       from { transform: translateY(-50px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
     }
-    
-    @keyframes pulse {
-      0% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.1); opacity: 0.8; }
-      100% { transform: scale(1); opacity: 1; }
-    }
 
     body {
       font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', roboto, sans-serif;
@@ -138,10 +130,7 @@
     .sidebar::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      top: 0; left: 0; right: 0; bottom: 0;
       background: var(--gradient-primary);
       opacity: 0.08;
       pointer-events: none;
@@ -167,7 +156,7 @@
     .sidebar-link {
       display: flex;
       align-items: center;
-      padding: 0.75rem 1rem;
+      padding: 1rem; /* Improved touch target padding */
       color: var(--text-secondary);
       text-decoration: none;
       border-radius: var(--border-radius);
@@ -182,15 +171,13 @@
       text-underline-offset: 0.2em;
       text-decoration-color: var(--link-primary);
       text-decoration-thickness: 1px;
+      min-height: 44px; /* Ensure mobile touch target size */
     }
 
     .sidebar-link::before {
       content: '';
       position: absolute;
-      left: 0;
-      top: 0;
-      height: 100%;
-      width: 3px;
+      left: 0; top: 0; height: 100%; width: 3px;
       background: var(--gradient-electric);
       transform: scaleY(0);
       transition: var(--transition-fast);
@@ -198,31 +185,13 @@
     }
 
     .sidebar-link:hover {
-      background: linear-gradient(135deg, 
-        rgba(99, 102, 241, 0.1) 0%, 
-        rgba(139, 92, 246, 0.1) 100%);
-      color: var(--text-primary);
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+      color: var(--link-hover);
       transform: translateX(3px);
       border-color: rgba(99, 102, 241, 0.2);
-    }
-
-    .sidebar-link:hover {
-      color: var(--link-hover);
       text-decoration-color: var(--link-hover);
     }
-
-    .sidebar-link.secondary-link {
-      margin-top: 0.75rem;
-      padding-top: 1rem;
-      border-top: 1px solid var(--border-color);
-      background: linear-gradient(135deg, 
-        rgba(99, 102, 241, 0.05) 0%, 
-        rgba(139, 92, 246, 0.05) 100%);
-    }
-
-    .sidebar-link:hover::before {
-      transform: scaleY(1);
-    }
+    .sidebar-link:hover::before { transform: scaleY(1); }
 
     a:not(.sidebar-link):not(.btn) {
       color: var(--link-primary);
@@ -231,10 +200,7 @@
       text-decoration-thickness: 1px;
       transition: var(--transition-fast);
     }
-
-    a:not(.sidebar-link):not(.btn):hover {
-      color: var(--link-hover);
-    }
+    a:not(.sidebar-link):not(.btn):hover { color: var(--link-hover); }
 
     .main {
       margin-left: 280px;
@@ -266,10 +232,7 @@
     section::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
+      top: 0; left: 0; right: 0; height: 4px;
       background: var(--gradient-primary);
     }
 
@@ -288,7 +251,6 @@
       -webkit-text-fill-color: transparent;
       background-clip: text;
       letter-spacing: -0.025em;
-      position: relative;
     }
 
     table {
@@ -300,14 +262,9 @@
       border-radius: var(--border-radius-lg);
       overflow: hidden;
       box-shadow: var(--shadow-md);
-      contain: layout style;
-      will-change: auto;
     }
 
-    thead {
-      background: var(--gradient-primary);
-      position: relative;
-    }
+    thead { background: var(--gradient-primary); }
 
     th {
       padding: 1.25rem 1.5rem;
@@ -317,65 +274,51 @@
       letter-spacing: 0.05em;
       text-transform: uppercase;
       color: white;
-      border: none;
-      position: relative;
     }
 
     tbody tr {
       transition: background-color 0.15s ease;
       border-bottom: 1px solid var(--border-color);
     }
-
-    tbody tr:last-child {
-      border-bottom: none;
-    }
-
-    tbody tr:hover {
-      background: linear-gradient(135deg, 
-        rgba(99, 102, 241, 0.06) 0%, 
-        rgba(139, 92, 246, 0.06) 100%);
-    }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: linear-gradient(135deg, rgba(99, 102, 241, 0.06) 0%, rgba(139, 92, 246, 0.06) 100%); }
 
     td {
       padding: 1rem 1.5rem;
-      border: none;
       color: var(--text-primary);
       font-size: 0.875rem;
-      position: relative;
-      text-align: left;
     }
 
-    #searchInput {
+    .searchInput {
       width: 100%;
       padding: 1rem 1rem 1rem 3rem;
       font-size: 0.875rem;
       font-weight: 500;
       background: var(--glass-bg);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
       border: 2px solid var(--border-color);
       border-radius: var(--border-radius-xl);
       color: var(--text-primary);
       transition: var(--transition-fast);
       font-family: inherit;
-      position: relative;
+    }
+    
+    /* Native search clear button styling */
+    .searchInput::-webkit-search-cancel-button {
+      -webkit-appearance: none;
+      height: 1em; width: 1em;
+      background: var(--text-muted);
+      mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>') center/cover;
+      cursor: pointer;
     }
 
-    #searchInput:focus {
+    .searchInput:focus {
       outline: none;
       border: 2px solid var(--primary);
       background: var(--bg-primary);
       box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
     }
 
-    #searchInput::placeholder {
-      color: var(--text-muted);
-    }
-
-    .search-container {
-      position: relative;
-    }
-
+    .search-container { position: relative; }
     .search-icon {
       position: absolute;
       left: 1rem;
@@ -387,27 +330,12 @@
     }
 
     .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.75rem 1.5rem;
-      font-size: 0.875rem;
-      font-weight: 600;
-      border: none;
-      border-radius: var(--border-radius);
-      cursor: pointer;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.75rem 1.5rem; font-size: 0.875rem; font-weight: 600;
+      border: none; border-radius: var(--border-radius); cursor: pointer;
       transition: var(--transition);
-      text-decoration: none;
-      font-family: inherit;
-      position: relative;
-      overflow: hidden;
     }
-
-    .btn-primary {
-      background: var(--gradient-primary);
-      color: white;
-    }
-
+    .btn-primary { background: var(--gradient-primary); color: white; }
     .btn-primary:hover {
       transform: translateY(-1px);
       box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
@@ -416,491 +344,175 @@
 
     #darkModeToggle {
       background: var(--glass-bg);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
       color: var(--text-primary);
       border: 2px solid var(--glass-border);
     }
-
     #darkModeToggle:hover {
       background: var(--gradient-primary);
-      color: white;
-      border-color: transparent;
+      color: white; border-color: transparent;
       transform: translateY(-1px);
       box-shadow: var(--shadow-lg);
     }
 
-    .toggle-btn {
-      display: none;
-    }
-
-    #ageModal {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-      padding: 1rem;
-    }
-
-    #ageModalContent {
-      background: var(--glass-bg);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 2px solid var(--glass-border);
-      padding: 3rem 2rem;
-      border-radius: var(--border-radius-xl);
-      text-align: center;
-      max-width: 400px;
-      width: 100%;
-      position: relative;
-      overflow: hidden;
-    }
-
-    #ageModalContent::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 5px;
-      background: var(--gradient-primary);
-    }
-
-    #ageModalContent h2 {
-      font-size: 1.5rem;
-      font-weight: 700;
-      margin: 0 0 1rem 0;
-      background: var(--gradient-electric);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    #ageModalContent p {
-      color: var(--text-secondary);
-      margin: 0 0 2rem 0;
-      font-size: 0.9375rem;
-    }
-
-    #ageModalContent button {
-      background: var(--gradient-primary);
-      color: white;
-      border: none;
-      padding: 1rem 2rem;
-      font-size: 0.9375rem;
-      font-weight: 600;
-      border-radius: var(--border-radius);
-      cursor: pointer;
-      transition: var(--transition);
-      font-family: inherit;
-    }
-
-    #ageModalContent button:hover {
-      transform: translateY(-1px);
-      background: var(--gradient-electric);
-      box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
-    }
-
-    .highlight {
-      background: var(--gradient-primary);
-      color: white;
-      font-weight: 600;
-      padding: 0.125rem 0.375rem;
-      border-radius: 0.25rem;
-      box-shadow: 0 2px 4px rgba(99, 102, 241, 0.3);
-    }
-
-    .mobile-header, .mobile-nav-content {
-      display: none;
-    }
+    .toggle-btn, .mobile-search { display: none; }
+    .mobile-header, .mobile-nav-content { display: none; }
 
     @media (max-width: 768px) {
-      .main {
-        margin-left: 0;
-        padding-top: 60px;
-      }
-
+      .main { margin-left: 0; padding-top: 80px; } /* Increased to ensure spacing from header */
+      
       .sidebar {
-        position: fixed;
-        width: 100%;
-        height: auto;
-        max-height: 100%;
-        top: 0;
-        left: 0;
-        right: 0;
-        border-right: none;
-        border-bottom: 2px solid var(--glass-border);
-        animation: none;
-        padding: 0;
-        z-index: 1001;
-        gap: 0;
+        position: fixed; width: 100%; height: auto; max-height: 100%;
+        top: 0; left: 0; border-right: none; border-bottom: 2px solid var(--glass-border);
+        animation: none; padding: 0; z-index: 1001;
         background: var(--bg-secondary);
-        backdrop-filter: none;
-        -webkit-backdrop-filter: none;
-        overflow-y: auto;
+        box-shadow: var(--shadow-sm); /* Distinct visual separation on scroll */
       }
+      .sidebar::before { display: none; }
 
-      .sidebar::before {
-        display: none;
-      }
-
-      .sidebar > .nav-section, 
-      .sidebar > .search-container, 
-      .sidebar > #darkModeToggle,
-      .sidebar > h2 {
-        display: none;
-      }
+      .sidebar > .nav-section, .sidebar > .desktop-search, 
+      .sidebar > #darkModeToggle, .sidebar > h2 { display: none !important; }
       
       .mobile-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 1rem 1.5rem;
-        cursor: pointer;
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 0.75rem 1rem;
+      }
+      .mobile-header h2 { display: none; } 
+      
+      .mobile-search { display: block; flex-grow: 1; margin-right: 1rem; }
+      .mobile-search .searchInput {
+        padding: 0.65rem 1rem 0.65rem 2.75rem;
+        font-size: 16px; /* Prevents auto-zoom on iOS */
       }
 
-      .mobile-header h2 {
-        margin: 0;
-      }
-      
       .toggle-btn {
-        display: block;
-        background: none;
-        border: none;
-        color: var(--text-primary);
-        font-size: 1.5rem;
-        cursor: pointer;
-        padding: 0.5rem;
+        display: flex; align-items: center; justify-content: center; 
+        background: none; border: none;
+        color: var(--text-primary); font-size: 1.75rem;
+        cursor: pointer; padding: 0.5rem;
+        min-width: 44px; min-height: 44px; /* Ensure hit target size */
       }
 
       .mobile-nav-content {
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
-        max-height: 0;
-        overflow: hidden;
-        padding: 0 1.5rem;
+        display: flex; flex-direction: column; gap: 1.5rem;
+        max-height: 0; overflow: hidden; padding: 0 1.5rem;
         transition: max-height 0.4s ease-out, padding 0.4s ease-out;
       }
+      .sidebar.show .mobile-nav-content { max-height: 100vh; padding: 1.5rem 1.5rem 2rem; }
 
-      .sidebar.show .mobile-nav-content {
-        max-height: 100vh;
-        padding: 1.5rem 1.5rem 2rem;
-      }
-
-      section {
-        width: 100%;
-        margin-left: 0;
-        margin-right: 0;
-      }
-
-      .content-container {
-        display: flex;
-        flex-direction: column;
-      }
-      #first-content-section {
-        order: 2;
-      }
-      #second-content-section {
-        order: 1;
-      }
+      section { width: 100%; margin-left: 0; margin-right: 0; padding: 1.25rem; border-radius: var(--border-radius); }
+      .content-container { display: flex; flex-direction: column; padding: 0.75rem; }
+      #first-content-section { order: 2; }
+      #second-content-section { order: 1; }
 
       table {
-        display: grid;
-        grid-template-columns: minmax(0, 375px);
-        justify-content: center;
-        gap: 1rem;
-        box-shadow: none;
-        background: transparent;
+        display: grid; grid-template-columns: minmax(0, 500px);
+        justify-content: center; gap: 1rem; box-shadow: none; background: transparent;
       }
-      thead {
-        display: none;
-      }
-      tbody, tr, td {
-        display: block;
-      }
+      thead { display: none; }
+      tbody, tr, td { display: block; }
       tr {
-        border: 1px solid var(--glass-border);
-        border-radius: var(--border-radius);
-        padding: 0.75rem;
-        background: var(--glass-bg);
-        backdrop-filter: blur(5px);
+        border: 1px solid var(--glass-border); border-radius: var(--border-radius);
+        padding: 0.75rem; background: var(--glass-bg); backdrop-filter: blur(5px);
       }
       td {
+        text-align: left; padding: 0.25rem 0; /* Tightened padding */
+        border-bottom: 1px solid var(--glass-border); font-size: 0.85rem; /* Better legibility */
+      }
+      td:last-child { border-bottom: none; }
+      
+      /* Display headers directly in the mobile card */
+      td::before {
+        content: attr(data-label);
         display: block;
-        text-align: left;
-        padding: 0.5rem 0;
-        border-bottom: 1px solid var(--glass-border);
-        font-size: 0.6rem;
-      }
-      td:last-child {
-        border-bottom: none;
-      }
-      
-      .content-container {
-        padding: 0.75rem;
-      }
-      
-      section {
-        padding: 1.125rem;
-        border-radius: var(--border-radius);
+        font-weight: 600;
+        color: var(--primary);
+        margin-bottom: 0.15rem;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
       }
     }
 
     @media (max-width: 640px) {
-      .content-container {
-        padding: 0.5rem;
-      }
-      
-      section {
-        padding: 0.75rem;
-        border-radius: var(--border-radius);
-      }
-      
-      td {
-        font-size: 0.6rem;
-      }
+      .content-container { padding: 0.5rem; }
+      section { padding: 1rem; }
+      td { font-size: 0.85rem; }
     }
 
-    .sidebar, .main {
-      contain: layout;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        transition-duration: 0.01ms !important;
-      }
-    }
-
-    *:focus-visible {
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
+    *:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
     
     #faq-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      z-index: 2000;
-      display: none;
-      justify-content: center;
-      align-items: center;
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.8); z-index: 2000;
+      display: none; justify-content: center; align-items: center;
     }
     
     #faq-container {
-      background: var(--bg-primary);
-      width: 90%;
-      max-width: 800px;
-      height: 90%;
-      border-radius: var(--border-radius-lg);
-      box-shadow: var(--shadow-xl);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      animation: slideInFromTop 0.4s ease;
-      font-size: 0.67em;
+      background: var(--bg-primary); width: 90%; max-width: 800px; height: 90%;
+      border-radius: var(--border-radius-lg); box-shadow: var(--shadow-xl);
+      overflow: hidden; display: flex; flex-direction: column;
+      animation: slideInFromTop 0.4s ease; font-size: 0.85em;
     }
-
-    #faq-search-container {
-      display: none;
-    }
-    
     #faq-header {
-      padding: 1rem 2rem;
-      background: var(--gradient-primary);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      color: white;
+      padding: 1rem 2rem; background: var(--gradient-primary);
+      display: flex; justify-content: space-between; align-items: center; color: white;
     }
-    
-    #faq-header h2 {
-      margin: 0;
-      font-size: 1.25rem;
-      color: white;
-      -webkit-text-fill-color: initial;
-      background: none;
-    }
-    
+    #faq-header h2 { margin: 0; font-size: 1.25rem; color: white; -webkit-text-fill-color: initial; }
     #faq-close-btn {
-      background: none;
-      border: none;
-      color: white;
-      font-size: 1.5rem;
-      cursor: pointer;
-      padding: 0.5rem;
-      line-height: 1;
-      transition: transform 0.2s ease;
+      background: none; border: none; color: white; font-size: 1.5rem;
+      cursor: pointer; padding: 0.5rem; transition: transform 0.2s ease;
+      min-width: 44px; min-height: 44px; /* Touch target */
     }
-    
-    #faq-close-btn:hover {
-      transform: rotate(90deg);
-    }
-    
-    #faq-content {
-      flex-grow: 1;
-      padding: 2rem;
-      overflow-y: auto;
-      background: var(--bg-secondary);
-      color: var(--text-primary);
-    }
+    #faq-close-btn:hover { transform: rotate(90deg); }
+    #faq-content { flex-grow: 1; padding: 2rem; overflow-y: auto; background: var(--bg-secondary); }
 
-    #faq-content section {
-        background: none;
-        border: none;
-        padding: 0;
-    }
-    
+    /* Audio Player Tap Target Fixes */
     .audio-player-container {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      background: var(--bg-secondary);
-      border-radius: var(--border-radius);
-      padding: 0.75rem;
-      box-shadow: var(--shadow-sm);
-      position: relative;
+      display: flex; flex-direction: column; gap: 0.5rem;
+      background: var(--bg-secondary); border-radius: var(--border-radius);
+      padding: 0.75rem; position: relative;
     }
-
-    .audio-controls {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    
-    .audio-player-container.is-playing .play-btn {
-        display: none;
-    }
-    
-    .audio-player-container.is-playing .pause-btn {
-        display: inline-block;
-    }
+    .audio-controls { display: flex; align-items: center; gap: 0.5rem; }
+    .audio-player-container.is-playing .play-btn { display: none; }
+    .audio-player-container.is-playing .pause-btn { display: inline-flex; }
 
     .play-btn, .pause-btn {
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: var(--primary);
-      padding: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 2rem;
-      height: 2rem;
+      background: none; border: none; cursor: pointer; color: var(--primary);
+      padding: 0; display: inline-flex; align-items: center; justify-content: center;
+      width: 3rem; height: 3rem; /* Larger tap target */
     }
-    
-    .play-btn:hover, .pause-btn:hover {
-        opacity: 0.8;
-    }
-    
-    .pause-btn {
-        display: none;
-    }
-    
-    .play-icon, .pause-icon {
-        width: 1.25rem;
-        height: 1.25rem;
-        fill: var(--primary);
-    }
+    .pause-btn { display: none; }
+    .play-icon, .pause-icon { width: 1.5rem; height: 1.5rem; fill: var(--primary); }
     
     .progress-bar-container {
-      flex-grow: 1;
-      height: 6px;
-      background: var(--bg-tertiary);
-      border-radius: 3px;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
+      flex-grow: 1; height: 44px; /* Fat-finger tap target for scrubbing */
+      display: flex; align-items: center; cursor: pointer; position: relative;
     }
-
+    .progress-bar-track {
+      position: absolute; left: 0; right: 0; height: 6px;
+      background: var(--bg-tertiary); border-radius: 3px; width: 100%;
+    }
     .progress-bar {
-      height: 100%;
-      width: 0%;
-      background: var(--gradient-primary);
-      transition: width 0.1s linear;
+      height: 6px; width: 0%; background: var(--gradient-primary);
+      border-radius: 3px; position: relative; z-index: 1; pointer-events: none;
     }
-
-    .audio-time {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      white-space: nowrap;
-    }
-
+    
     .close-audio-btn {
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      cursor: pointer;
-      font-size: 0.75rem;
-      position: absolute;
-      top: 0.25rem;
-      right: 0.25rem;
-      width: 1.2rem;
-      height: 1.2rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border-radius: 50%;
-      transition: var(--transition-fast);
-      padding: 0;
+      background: none; border: none; color: var(--text-muted); cursor: pointer;
+      position: absolute; top: 0.25rem; right: 0.25rem;
+      width: 44px; height: 44px; display: flex; justify-content: center; align-items: center;
     }
-    
-    .close-audio-btn:hover {
-        color: var(--error);
-        background-color: var(--bg-tertiary);
-    }
-    
     .preview-btn {
-        background: var(--gradient-primary);
-        color: white;
-        border: none;
-        padding: 0.6rem 1rem;
-        font-size: 0.8rem;
-        font-weight: 500;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: var(--transition);
-        font-family: inherit;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.25rem;
-        box-shadow: var(--shadow-sm);
+      background: var(--gradient-primary); color: white; border: none;
+      padding: 0.6rem 1rem; font-size: 0.8rem; font-weight: 500; border-radius: 8px; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 0.25rem;
+      min-height: 44px;
     }
-    
-    .preview-btn:hover {
-        transform: translateY(-1px);
-        box-shadow: var(--shadow-md);
-        background: var(--gradient-electric);
-    }
-    
-    .preview-btn .play-icon {
-        fill: white;
-        width: 1rem;
-        height: 1rem;
-    }
+    .preview-btn .play-icon { fill: white; width: 1rem; height: 1rem; }
 
   </style>
 </head>
 <body>
-  <div id="ageModal">
-    <div id="ageModalContent">
-      <h2>🔞 Adults Only</h2>
-      <p>This site contains content intended for audiences 18 and older.</p>
-      <button onclick="acceptAge()">Yes, I am 18 or older</button>
-    </div>
-  </div>
-
   <nav class="sidebar" role="navigation" aria-label="Main navigation">
     <h2>Categories</h2>
     <div class="nav-section">
@@ -911,19 +523,23 @@ Exclusives</a>
 <a class="sidebar-link" href="#" onclick="showFaqOverlay(); return false;">About Me</a>
 <a class="sidebar-link" href="https://www.patreon.com/c/whorosethinks/" target="_blank">Support Me</a>
     </div>
-    <div class="search-container">
+    <div class="search-container desktop-search">
       <div class="search-icon">🔍</div>
-      <input id="searchInput" 
-        type="text" placeholder="Search content..." autocomplete="off" aria-label="Search content" />
+      <input class="searchInput" type="search" placeholder="Search content..." autocomplete="off" aria-label="Search content" />
     </div>
     <button id="darkModeToggle" class="btn" aria-label="Toggle dark mode">🌙 Dark Mode</button>
     
     <div class="mobile-header">
-      <h2>Categories</h2>
+      <h2>Menu</h2>
+      <div class="search-container mobile-search">
+        <div class="search-icon">🔍</div>
+        <input class="searchInput" type="search" placeholder="Search..." autocomplete="off" aria-label="Search content" />
+      </div>
       <button class="toggle-btn" aria-label="Toggle navigation">☰</button>
     </div>
     <div class="mobile-nav-content">
-      </div>
+      <!-- Cloned nav and dark mode go here -->
+    </div>
   </nav>
 
   <main class="main" role="main">
@@ -5517,15 +5133,12 @@ href="https://www.reddit.com/r/pillowtalkaudio/comments/rvd9du/m4f_entertainment
 </section>
     </div>
   </main>
-  
+
   <div id="faq-overlay">
     <div id="faq-container">
       <div id="faq-header">
         <h2>About Me</h2>
         <button id="faq-close-btn">✖</button>
-      </div>
-      <div id="faq-search-container">
-        
       </div>
       <div id="faq-content">
         <p>I am a voice actor and creator of audio roleplay content, both safe
@@ -6126,19 +5739,8 @@ myself won’t be part of it.</li>
   </div>
 
   <script>
-    function acceptAge() {
-      localStorage.setItem("ageConfirmed", "true");
-      document.getElementById("ageModal").style.display = "none";
-    }
-
-    function normalizeText(text) {
-      return text.replace(/\s+/g, ' ').trim();
-    }
-
-    function escapeRegExp(string) {
-      return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    }
-
+    function normalizeText(text) { return text.replace(/\s+/g, ' ').trim(); }
+    function escapeRegExp(string) { return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
     function highlightTerm(element, term) {
       if (!term || term.trim() === '') return;
       const regex = new RegExp('(' + escapeRegExp(term) + ')', 'gi');
@@ -6147,9 +5749,7 @@ myself won’t be part of it.</li>
       let node;
       while (node = walker.nextNode()) {
         if (node.parentElement.tagName.toLowerCase() !== 'script' && node.parentElement.tagName.toLowerCase() !== 'style') {
-          if (regex.test(node.textContent)) {
-            textNodes.push(node);
-          }
+          if (regex.test(node.textContent)) textNodes.push(node);
         }
       }
       textNodes.forEach(textNode => {
@@ -6162,19 +5762,11 @@ myself won’t be part of it.</li>
     function debounce(func, wait) {
       let timeout;
       return function executedFunction(...args) {
-        const later = () => {
-          clearTimeout(timeout);
-          func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
+        const later = () => { clearTimeout(timeout); func(...args); };
+        clearTimeout(timeout); timeout = setTimeout(later, wait);
       };
     }
 
-    function getSystemTheme() {
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-    
     let currentAudio = null;
     function createAudioPlayer(audioSrc, parentCell) {
         const player = document.createElement('div');
@@ -6183,22 +5775,17 @@ myself won’t be part of it.</li>
           <audio src="${audioSrc}" preload="none"></audio>
           <div class="audio-controls">
             <button class="play-btn" aria-label="Play">
-              <svg class="play-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M8 5v14l11-7z"/>
-              </svg>
+              <svg class="play-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>
             </button>
             <button class="pause-btn" aria-label="Pause">
-              <svg class="pause-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
-              </svg>
+              <svg class="pause-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
             </button>
             <div class="progress-bar-container">
+              <div class="progress-bar-track"></div>
               <div class="progress-bar"></div>
             </div>
           </div>
-          <button class="close-audio-btn" aria-label="Close Player">
-            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-          </button>
+          <button class="close-audio-btn" aria-label="Close Player">✖</button>
         `;
         const audio = player.querySelector('audio');
         const playBtn = player.querySelector('.play-btn');
@@ -6211,64 +5798,37 @@ myself won’t be part of it.</li>
             currentAudio.pause();
             const oldPlayer = currentAudio.closest('.audio-player-container');
             if(oldPlayer) {
-              const oldCell = oldPlayer.parentElement;
-              const oldLink = oldCell.querySelector('a');
+              const oldLink = oldPlayer.parentElement.querySelector('a');
               oldPlayer.remove();
               if(oldLink) oldLink.style.display = 'inline-block';
             }
         }
 
         currentAudio = audio;
-        playBtn.addEventListener('click', () => {
-            if (currentAudio && currentAudio !== audio) {
-                currentAudio.pause();
-                const oldPlayer = currentAudio.closest('.audio-player-container');
-                if(oldPlayer){
-                  const oldCell = oldPlayer.parentElement;
-                  const oldLink = oldCell.querySelector('a');
-                  oldPlayer.remove();
-                  if(oldLink) oldLink.style.display = 'inline-block';
-                }
-            }
-            audio.play();
-            player.classList.add('is-playing');
-            currentAudio = audio;
-        });
-        pauseBtn.addEventListener('click', () => {
-            audio.pause();
-            player.classList.remove('is-playing');
-        });
+        playBtn.addEventListener('click', () => { audio.play(); player.classList.add('is-playing'); });
+        pauseBtn.addEventListener('click', () => { audio.pause(); player.classList.remove('is-playing'); });
         audio.addEventListener('timeupdate', () => {
-            const progress = (audio.currentTime / audio.duration) * 100;
-            progressBar.style.width = `${progress}%`;
+            progressBar.style.width = `${(audio.currentTime / audio.duration) * 100}%`;
         });
         audio.addEventListener('ended', () => {
-            player.classList.remove('is-playing');
-            audio.currentTime = 0;
-            progressBar.style.width = '0%';
+            player.classList.remove('is-playing'); audio.currentTime = 0; progressBar.style.width = '0%';
         });
+        
+        // Tap Target calculated based on the invisible outer container limits
         progressContainer.addEventListener('click', (e) => {
-            const width = progressContainer.offsetWidth;
-            const clickX = e.offsetX;
-            const duration = audio.duration;
-            audio.currentTime = (clickX / width) * duration;
+            const rect = progressContainer.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            audio.currentTime = (clickX / progressContainer.offsetWidth) * audio.duration;
         });
+        
         closeBtn.addEventListener('click', () => {
-            audio.pause();
-            player.remove();
+            audio.pause(); player.remove();
             const previewBtn = document.createElement('button');
             previewBtn.className = 'preview-btn';
-            previewBtn.innerHTML = `
-                <svg class="play-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M8 5v14l11-7z"/>
-                </svg>
-                Preview
-            `;
+            previewBtn.innerHTML = `<svg class="play-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>Preview`;
             previewBtn.dataset.audioSrc = audioSrc;
             parentCell.appendChild(previewBtn);
-            if(currentAudio === audio) {
-              currentAudio = null;
-            }
+            if(currentAudio === audio) currentAudio = null;
         });
         parentCell.innerHTML = '';
         parentCell.appendChild(player);
@@ -6279,24 +5839,16 @@ myself won’t be part of it.</li>
         const headers = Array.from(table.querySelectorAll('thead th')).map(th => th.textContent);
         table.querySelectorAll('tbody tr').forEach(row => {
           row.querySelectorAll('td').forEach((cell, i) => {
-            if (headers[i]) {
-              cell.setAttribute('data-label', headers[i]);
-            }
+            if (headers[i]) cell.setAttribute('data-label', headers[i]);
           });
           const thirdCell = row.querySelectorAll('td')[2];
           if (thirdCell && thirdCell.children.length > 0) {
             const link = thirdCell.querySelector('a');
             if (link && link.href.endsWith('.mp3')) {
-              const audioSrc = link.href;
-              link.style.display = 'none';
+              const audioSrc = link.href; link.style.display = 'none';
               const previewBtn = document.createElement('button');
               previewBtn.className = 'preview-btn';
-              previewBtn.innerHTML = `
-                  <svg class="play-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M8 5v14l11-7z"/>
-                  </svg>
-                  Preview
-              `;
+              previewBtn.innerHTML = `<svg class="play-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>Preview`;
               previewBtn.dataset.audioSrc = audioSrc;
               thirdCell.appendChild(previewBtn);
             }
@@ -6307,48 +5859,27 @@ myself won’t be part of it.</li>
 
     const originalFaqHTML = new Map();
     function showFaqOverlay() {
-      const overlay = document.getElementById('faq-overlay');
-      overlay.style.display = 'flex';
+      document.getElementById('faq-overlay').style.display = 'flex';
       document.body.style.overflow = 'hidden';
-      const sidebar = document.querySelector('.sidebar');
-      if (sidebar.classList.contains('show')) {
-        sidebar.classList.remove('show');
-      }
+      document.querySelector('.sidebar').classList.remove('show');
     }
 
     function hideFaqOverlay() {
-      const overlay = document.getElementById('faq-overlay');
-      overlay.style.display = 'none';
+      document.getElementById('faq-overlay').style.display = 'none';
       document.body.style.overflow = 'auto';
-      
-      const faqSearchBar = document.getElementById('faq-search-bar');
-      if (faqSearchBar) {
-        faqSearchBar.value = '';
-      }
-      
-      document.querySelectorAll('#faq-content .faq-item').forEach((item) => {
-        if (originalFaqHTML.has(item)) {
-            item.innerHTML = originalFaqHTML.get(item);
-        }
-        item.style.display = 'block';
+      document.querySelectorAll('#faq-content .faq-item').forEach(item => {
+        if (originalFaqHTML.has(item)) item.innerHTML = originalFaqHTML.get(item);
       });
     }
 
     document.addEventListener("DOMContentLoaded", function () {
-      if (localStorage.getItem("ageConfirmed") === "true") {
-        document.getElementById("ageModal").style.display = "none";
-      }
-      const toggle = document.getElementById('darkModeToggle');
-      let currentTheme = localStorage.getItem('siteTheme') || getSystemTheme();
-      localStorage.setItem('siteTheme', currentTheme);
-      
       const applyTheme = (theme) => {
         document.body.classList.toggle('dark-mode', theme === 'dark');
-        document.querySelectorAll('#darkModeToggle').forEach(btn => {
-          btn.innerHTML = theme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
-        });
+        document.querySelectorAll('#darkModeToggle').forEach(btn => btn.innerHTML = theme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode');
       };
       
+      let currentTheme = localStorage.getItem('siteTheme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      localStorage.setItem('siteTheme', currentTheme);
       applyTheme(currentTheme);
 
       document.body.addEventListener('click', function(e) {
@@ -6362,17 +5893,14 @@ myself won’t be part of it.</li>
       const sidebar = document.querySelector('.sidebar');
       const mobileHeader = document.querySelector('.mobile-header');
       const mobileNavContent = document.querySelector('.mobile-nav-content');
-      const navSection = sidebar.querySelector('.nav-section');
-      const searchContainer = sidebar.querySelector('.search-container');
-      const darkModeButton = sidebar.querySelector('#darkModeToggle');
-      if (navSection) mobileNavContent.appendChild(navSection.cloneNode(true));
-      if (searchContainer) mobileNavContent.appendChild(searchContainer.cloneNode(true));
-      if (darkModeButton) mobileNavContent.appendChild(darkModeButton.cloneNode(true));
       
-      mobileHeader.addEventListener('click', () => sidebar.classList.toggle('show'));
+      // Clone Nav and Dark Mode to mobile menu, but ignore search since it's now in the header
+      if (sidebar.querySelector('.nav-section')) mobileNavContent.appendChild(sidebar.querySelector('.nav-section').cloneNode(true));
+      if (sidebar.querySelector('#darkModeToggle')) mobileNavContent.appendChild(sidebar.querySelector('#darkModeToggle').cloneNode(true));
       
-      const main = document.querySelector('.main');
-      const sections = main.querySelectorAll('section:not(.faq-item)');
+      mobileHeader.querySelector('.toggle-btn').addEventListener('click', () => sidebar.classList.toggle('show'));
+      
+      const sections = document.querySelectorAll('.main section:not(.faq-item)');
       const originalHTML = new Map();
       sections.forEach(section => originalHTML.set(section, section.innerHTML));
       makeTablesResponsive();
@@ -6380,8 +5908,7 @@ myself won’t be part of it.</li>
       const debouncedSearch = debounce(function(query) {
         sections.forEach(section => {
           section.innerHTML = originalHTML.get(section);
-          const sectionText = normalizeText(section.textContent).toLowerCase();
-          const matches = sectionText.includes(query) || query === '';
+          const matches = normalizeText(section.textContent).toLowerCase().includes(query) || query === '';
           section.style.display = matches ? '' : 'none';
           if (matches && query !== '') {
             section.querySelectorAll('tbody tr').forEach(row => {
@@ -6392,30 +5919,30 @@ myself won’t be part of it.</li>
         });
         makeTablesResponsive();
       }, 200);
-      document.querySelectorAll('#searchInput').forEach(input => {
-        input.addEventListener('input', e => debouncedSearch(normalizeText(e.target.value).toLowerCase()));
+
+      // Search Inputs Synchronization
+      document.querySelectorAll('.searchInput').forEach(input => {
+        input.addEventListener('input', e => {
+          const val = e.target.value;
+          document.querySelectorAll('.searchInput').forEach(other => { if(other !== input) other.value = val; });
+          debouncedSearch(normalizeText(val).toLowerCase());
+        });
         input.addEventListener('keydown', e => {
-            if (e.key === 'Enter' && window.innerWidth <= 768) {
-                sidebar.classList.remove('show');
-            }
+            if (e.key === 'Enter' && window.innerWidth <= 768) sidebar.classList.remove('show');
         });
       });
 
-      const faqItems = document.querySelectorAll('#faq-content .faq-item');
-      
-      faqItems.forEach(item => originalFaqHTML.set(item, item.innerHTML));
+      document.querySelectorAll('#faq-content .faq-item').forEach(item => originalFaqHTML.set(item, item.innerHTML));
       
       document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
-          if (sidebar.classList.contains('show')) sidebar.classList.remove('show');
+          sidebar.classList.remove('show');
           if (document.getElementById('faq-overlay').style.display === 'flex') hideFaqOverlay();
         }
-        if (e.key === '/' && !e.ctrlKey && !e.metaKey) {
-          const activeElement = document.activeElement.tagName.toLowerCase();
-          if (activeElement !== 'input' && activeElement !== 'textarea') {
-            e.preventDefault();
-            document.querySelector('.search-container:not([style*="display: none"]) #searchInput')?.focus();
-          }
+        if (e.key === '/' && !e.ctrlKey && !e.metaKey && document.activeElement.tagName.toLowerCase() !== 'input') {
+          e.preventDefault();
+          const visibleSearch = Array.from(document.querySelectorAll('.searchInput')).find(el => el.offsetParent !== null);
+          if (visibleSearch) visibleSearch.focus();
         }
       });
     });
@@ -6423,23 +5950,18 @@ myself won’t be part of it.</li>
     document.addEventListener('click', function(e) {
       if (e.target.closest('.sidebar-link') && e.target.closest('.sidebar-link').getAttribute('href').startsWith('#')) {
         e.preventDefault();
-        const targetId = e.target.closest('.sidebar-link').getAttribute('href').substring(1);
-        const targetElement = document.getElementById(targetId);
+        const targetElement = document.getElementById(e.target.closest('.sidebar-link').getAttribute('href').substring(1));
         if (targetElement) {
           targetElement.scrollIntoView({ block: 'start' });
           targetElement.style.outline = '2px solid var(--primary)';
           setTimeout(() => targetElement.style.outline = '', 1500);
         }
-        if (window.innerWidth <= 768) {
-          document.querySelector('.sidebar').classList.remove('show');
-        }
-      } else if (e.target.id === 'faq-close-btn') {
+        if (window.innerWidth <= 768) document.querySelector('.sidebar').classList.remove('show');
+      } else if (e.target.closest('#faq-close-btn')) {
         hideFaqOverlay();
       } else if (e.target.closest('.preview-btn')) {
-        const previewBtn = e.target.closest('.preview-btn');
-        const audioSrc = previewBtn.dataset.audioSrc;
-        const parentCell = previewBtn.parentElement;
-        createAudioPlayer(audioSrc, parentCell);
+        const btn = e.target.closest('.preview-btn');
+        createAudioPlayer(btn.dataset.audioSrc, btn.parentElement);
       }
     });
   </script>
